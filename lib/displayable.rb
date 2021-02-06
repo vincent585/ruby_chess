@@ -6,20 +6,24 @@ require 'rainbow'
 module Displayable
   def show_board
     cells.each_with_index do |row, i|
-      print_row(row, i)
+      print_rows(row, i)
       puts
     end
   end
 
-  def print_row(row, index)
+  def print_rows(row, index)
     row.each_with_index do |cell, j|
-      if index.even?
-        print Rainbow(cell).bg(:white) if j.even?
-        print Rainbow(cell).bg(:black) if j.odd?
-      else
-        print Rainbow(cell).bg(:white) if j.odd?
-        print Rainbow(cell).bg(:black) if j.even?
-      end
+      index.even? ? even_row(cell, j) : odd_row(cell, j)
     end
+  end
+
+  def even_row(cell, index)
+    print Rainbow(cell).bg(:white) if index.even?
+    print Rainbow(cell).bg(:black) if index.odd?
+  end
+
+  def odd_row(cell, index)
+    print Rainbow(cell).bg(:white) if index.odd?
+    print Rainbow(cell).bg(:black) if index.even?
   end
 end
