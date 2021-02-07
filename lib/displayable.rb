@@ -20,13 +20,13 @@ module Displayable
   end
 
   def even_row(cell, index)
-    print Rainbow(cell).bg(:white) if index.even?
-    print Rainbow(cell).bg(:black) if index.odd?
+    print Rainbow(cell).bg(:beige) if index.even?
+    print Rainbow(cell).bg(:darkgray) if index.odd?
   end
 
   def odd_row(cell, index)
-    print Rainbow(cell).bg(:white) if index.odd?
-    print Rainbow(cell).bg(:black) if index.even?
+    print Rainbow(cell).bg(:beige) if index.odd?
+    print Rainbow(cell).bg(:darkgray) if index.even?
   end
 
   def print_row_number(index)
