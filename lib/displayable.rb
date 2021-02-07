@@ -5,7 +5,9 @@ require 'rainbow'
 # Module containing all display related methods
 module Displayable
   def show_board
+    print_column_letters
     cells.each_with_index do |row, i|
+      print_row_number(i)
       print_rows(row, i)
       puts
     end
@@ -25,5 +27,13 @@ module Displayable
   def odd_row(cell, index)
     print Rainbow(cell).bg(:white) if index.odd?
     print Rainbow(cell).bg(:black) if index.even?
+  end
+
+  def print_row_number(index)
+    print index + 1
+  end
+
+  def print_column_letters
+    puts '  A  B  C  D  E  F  G  H'
   end
 end
