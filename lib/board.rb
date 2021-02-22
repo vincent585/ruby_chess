@@ -13,8 +13,10 @@ class Board
   end
 
   def set_board
-    # first, set the black pieces, i.e. @cells[0][i] = Rook, Knight... then @cells[1] = all pawns
-    # do the same for white
+    set_black_first_row
+    set_black_pawns
+    set_white_pawns
+    set_white_first_row
   end
 
   def set_black_first_row
@@ -26,12 +28,24 @@ class Board
       ]
   end
 
+  def set_white_first_row
+    @cells[7] =
+      [
+        Rook.new("\u265C", 'white'), Knight.new("\u265E", 'white'), Bishop.new("\u265D", 'white'),
+        Queen.new("\u265B", 'white'), King.new("\u265A", 'white'), Bishop.new("\u265D", 'white'),
+        Knight.new("\u265E", 'white'), Rook.new("\u265C", 'white')
+      ]
+  end
+
   def set_black_pawns
     (0..7).each { |i| @cells[1][i] = Pawn.new("\u2659", 'black') }
+  end
+
+  def set_white_pawns
+    (0..7).each { |i| @cells[6][i] = Pawn.new("\u265F", 'white') }
   end
 end
 
 x = Board.new
-x.set_black_first_row
-x.set_black_pawns
+x.set_board
 x.show_board
