@@ -18,7 +18,3 @@ class Game
     board.set_white_first_row
   end
 end
-
-g = Game.new
-g.set_board
-g.board.show_board
