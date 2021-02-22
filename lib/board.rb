@@ -1,7 +1,8 @@
 # frozen_string_literal: true
 
 require_relative 'displayable'
-require_relative 'pawn'
+Dir['./lib/pieces/*.rb'].sort.each(&method(:require))
+
 # Board class representing the Chess board
 class Board
   include Displayable
