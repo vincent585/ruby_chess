@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 require_relative 'displayable'
-Dir['./lib/pieces/*.rb'].sort.each(&method(:require))
 
 # Board class representing the Chess board
 class Board
@@ -10,13 +9,6 @@ class Board
 
   def initialize
     @cells = Array.new(8) { Array.new(8, '   ') }
-  end
-
-  def set_board
-    set_black_first_row
-    set_black_pawns
-    set_white_pawns
-    set_white_first_row
   end
 
   def set_black_first_row
@@ -45,7 +37,3 @@ class Board
     (0..7).each { |i| @cells[6][i] = Pawn.new("\u265F", 'white') }
   end
 end
-
-x = Board.new
-x.set_board
-x.show_board
