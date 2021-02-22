@@ -9,4 +9,8 @@ class Rook
     @marker = marker
     @color = color
   end
+
+  def to_s
+    " #{marker} "
+  end
 end
