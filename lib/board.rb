@@ -17,7 +17,12 @@ class Board
   end
 
   def set_black_first_row
-    # TODO
+    @cells[0] =
+      [
+        Rook.new("\u2656", 'black'), Knight.new("\u2658", 'black'), Bishop.new("\u2657", 'black'),
+        Queen.new("\u2655", 'black'), King.new("\u2654", 'black'), Bishop.new("\u2657", 'black'),
+        Knight.new("\u2658", 'black'), Rook.new("\u2656", 'black')
+      ]
   end
 
   def set_black_pawns
@@ -26,5 +31,6 @@ class Board
 end
 
 x = Board.new
+x.set_black_first_row
 x.set_black_pawns
 x.show_board
