@@ -21,9 +21,7 @@ class Knight
   end
 
   def valid_knight_move?(current_position, target)
-    return true if MOVES.include?(coordinate_difference(current_position, target))
-
-    false
+    MOVES.include?(coordinate_difference(current_position, target)) ? true : false
   end
 
   def to_s
