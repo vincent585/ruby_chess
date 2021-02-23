@@ -26,11 +26,13 @@ class Knight
     false
   end
 
-  def coordinate_difference(current_position, target)
-    current_position.zip(target).map { |x, y| y - x }
-  end
-
   def to_s
     " #{marker} "
+  end
+
+  private
+
+  def coordinate_difference(current_position, target)
+    current_position.zip(target).map { |x, y| y - x }
   end
 end
