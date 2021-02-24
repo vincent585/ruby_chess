@@ -7,20 +7,23 @@ class Board
   include Displayable
   attr_reader :cells
 
-  LETTER_INDECES =
-    {
-      'A': 0,
-      'B': 1,
-      'C': 2,
-      'D': 3,
-      'E': 4,
-      'F': 5,
-      'G': 6,
-      'H': 7
-    }.freeze
+  LETTER_INDECES = %w[A B C D E F G H].freeze
 
   def initialize
     @cells = Array.new(8) { Array.new(8, '   ') }
+  end
+
+  def update_board(start, target)
+    # TODO
+  end
+
+  def convert_coordinates(start, target, coordinates = [start, target])
+    coordinates = coordinates.map(&:chars)
+    coordinates.map do |coordinate|
+      coordinate.map do |c|
+        c.to_i.is_a?(Integer) ? c.to_i : LETTER_INDECES.index(c.upcase)
+      end
+    end
   end
 
   def set_black_first_row
@@ -49,3 +52,6 @@ class Board
     (0..7).each { |i| @cells[6][i] = Pawn.new("\u265F", 'white') }
   end
 end
+
+b = Board.new
+p b.convert_coordinates('a4', 'a6')
