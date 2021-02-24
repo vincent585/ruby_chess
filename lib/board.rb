@@ -14,6 +14,18 @@ class Board
   end
 
   def valid_coordinates?(coordinates)
+    on_the_board?(coordinates) && different_cell?(coordinates) && piece_selected?(coordinates)
+  end
+
+  def different_cell?(coordinates)
+    coordinates[0..1] != coordinates[2..3]
+  end
+
+  def piece_selected?(coordinates)
+    @cells[coordinates[0]][coordinates[1]] != '   '
+  end
+
+  def on_the_board?(coordinates)
     coordinates.all? { |coordinate| coordinate.between?(0, 7) }
   end
 
