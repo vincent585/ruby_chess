@@ -26,7 +26,7 @@ class Board
 
   def piece_selected?(coordinates, current_player)
     start = @cells[coordinates[0]][coordinates[1]]
-    p start != '   ' && start.color == current_player.color
+    start != '   ' && start.color == current_player.color
   end
 
   def on_the_board?(coordinates)
@@ -41,9 +41,15 @@ class Board
     @cells[coordinates[2]][coordinates[3]].color != current_player.color
   end
 
+  def legal_piece_move?(coordinates)
+    start = coordinates[0..1]
+    target = coordinates[2..3]
+    @cells[coordinates[0]][coordinates[1]].valid_move?(start, target)
+  end
+
   def update_board(start, target, current_player)
     coordinates = convert_coordinates(start, target)
-    return nil unless valid_coordinates?(coordinates, current_player)
+    return nil unless valid_coordinates?(coordinates, current_player) && legal_piece_move?(coordinates)
 
     @cells[coordinates[2]][coordinates[3]] = @cells[coordinates[0]][coordinates[1]]
     @cells[coordinates[0]][coordinates[1]] = '   '

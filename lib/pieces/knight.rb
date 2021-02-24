@@ -16,11 +16,11 @@ class Knight
     @color = color
   end
 
-  def knight_move(current_position, target)
+  def move(current_position, target)
     # TODO
   end
 
-  def valid_knight_move?(current_position, target)
+  def valid_move?(current_position, target)
     MOVES.include?(coordinate_difference(current_position, target)) ? true : false
   end
 
