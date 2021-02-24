@@ -5,6 +5,7 @@ Dir['./lib/pieces/*.rb'].sort.each(&method(:require))
 
 # Game object class
 class Game
+  include Displayable
   attr_reader :board
 
   def initialize
@@ -17,9 +18,30 @@ class Game
     board.set_white_pawns
     board.set_white_first_row
   end
+
+  def player_turn
+    player_turn_prompt
+    loop do
+      coordinates = board.update_board(select_start, select_target)
+      return if coordinates
+
+      puts 'Please enter valid coordinates!'
+    end
+  end
+
+  def select_start
+    prompt_for_start
+    gets.chomp
+  end
+
+  def select_target
+    prompt_for_target
+    gets.chomp
+  end
 end
 
 g = Game.new
 g.set_board
 g.board.show_board
-g.board.update_board('a2', 'a4')
+g.player_turn
+g.board.show_board

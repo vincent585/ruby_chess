@@ -7,24 +7,29 @@ class Board
   include Displayable
   attr_reader :cells
 
-  LETTER_INDECES = %w[A B C D E F G H].freeze
+  LETTER_INDECES = %w[a b c d e f g h].freeze
 
   def initialize
     @cells = Array.new(8) { Array.new(8, '   ') }
   end
 
+  def valid_coordinates?(coordinates)
+    coordinates.all? { |coordinate| coordinate.between?(0, 7) }
+  end
+
   def update_board(start, target)
     coordinates = convert_coordinates(start, target)
+    return nil unless valid_coordinates?(coordinates)
+
     @cells[coordinates[2]][coordinates[3]] = @cells[coordinates[0]][coordinates[1]]
     @cells[coordinates[0]][coordinates[1]] = '   '
-    show_board
   end
 
   def convert_coordinates(start, target, coordinates = [start, target])
     coordinates = coordinates.map(&:chars)
     coordinates.map do |coordinate|
       coordinate.map do |c|
-        LETTER_INDECES.include?(c.upcase) ? LETTER_INDECES.index(c.upcase) : c.to_i - 1
+        LETTER_INDECES.include?(c) ? LETTER_INDECES.index(c) : c.to_i - 1
       end.reverse
     end.flatten
   end

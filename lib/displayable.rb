@@ -9,8 +9,10 @@ module Displayable
     cells.each_with_index do |row, i|
       print_row_number(i)
       print_rows(row, i)
+      print_row_number(i)
       puts
     end
+    print_column_letters
   end
 
   def print_rows(row, index)
@@ -33,7 +35,19 @@ module Displayable
     print index + 1
   end
 
+  def player_turn_prompt
+    puts 'tbd'
+  end
+
+  def prompt_for_start
+    puts 'Please enter a starting coordinate (e.g. "a2")'
+  end
+
+  def prompt_for_target
+    puts 'Please enter a target coordinate (e.g. "a4")'
+  end
+
   def print_column_letters
-    puts '  A  B  C  D  E  F  G  H'
+    puts '  a  b  c  d  e  f  g  h'
   end
 end
