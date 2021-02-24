@@ -14,16 +14,19 @@ class Board
   end
 
   def update_board(start, target)
-    # TODO
+    coordinates = convert_coordinates(start, target)
+    @cells[coordinates[2]][coordinates[3]] = @cells[coordinates[0]][coordinates[1]]
+    @cells[coordinates[0]][coordinates[1]] = '   '
+    show_board
   end
 
   def convert_coordinates(start, target, coordinates = [start, target])
     coordinates = coordinates.map(&:chars)
     coordinates.map do |coordinate|
       coordinate.map do |c|
-        c.to_i.is_a?(Integer) ? c.to_i : LETTER_INDECES.index(c.upcase)
-      end
-    end
+        LETTER_INDECES.include?(c.upcase) ? LETTER_INDECES.index(c.upcase) : c.to_i - 1
+      end.reverse
+    end.flatten
   end
 
   def set_black_first_row
@@ -52,6 +55,3 @@ class Board
     (0..7).each { |i| @cells[6][i] = Pawn.new("\u265F", 'white') }
   end
 end
-
-b = Board.new
-p b.convert_coordinates('a4', 'a6')
