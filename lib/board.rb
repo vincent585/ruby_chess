@@ -7,6 +7,18 @@ class Board
   include Displayable
   attr_reader :cells
 
+  LETTER_INDECES =
+    {
+      'A': 0,
+      'B': 1,
+      'C': 2,
+      'D': 3,
+      'E': 4,
+      'F': 5,
+      'G': 6,
+      'H': 7
+    }.freeze
+
   def initialize
     @cells = Array.new(8) { Array.new(8, '   ') }
   end
