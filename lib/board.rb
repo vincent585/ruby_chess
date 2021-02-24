@@ -13,25 +13,37 @@ class Board
     @cells = Array.new(8) { Array.new(8, '   ') }
   end
 
-  def valid_coordinates?(coordinates)
-    on_the_board?(coordinates) && different_cell?(coordinates) && piece_selected?(coordinates)
+  def valid_coordinates?(coordinates, current_player)
+    on_the_board?(coordinates) &&
+      different_cell?(coordinates) &&
+      piece_selected?(coordinates, current_player) &&
+      cell_not_occupied?(coordinates, current_player)
   end
 
   def different_cell?(coordinates)
     coordinates[0..1] != coordinates[2..3]
   end
 
-  def piece_selected?(coordinates)
-    @cells[coordinates[0]][coordinates[1]] != '   '
+  def piece_selected?(coordinates, current_player)
+    start = @cells[coordinates[0]][coordinates[1]]
+    p start != '   ' && start.color == current_player.color
   end
 
   def on_the_board?(coordinates)
     coordinates.all? { |coordinate| coordinate.between?(0, 7) }
   end
 
-  def update_board(start, target)
+  def cell_not_occupied?(coordinates, current_player)
+    @cells[coordinates[2]][coordinates[3]] == '   ' || not_friendly_piece?(coordinates, current_player)
+  end
+
+  def not_friendly_piece?(coordinates, current_player)
+    @cells[coordinates[2]][coordinates[3]].color != current_player.color
+  end
+
+  def update_board(start, target, current_player)
     coordinates = convert_coordinates(start, target)
-    return nil unless valid_coordinates?(coordinates)
+    return nil unless valid_coordinates?(coordinates, current_player)
 
     @cells[coordinates[2]][coordinates[3]] = @cells[coordinates[0]][coordinates[1]]
     @cells[coordinates[0]][coordinates[1]] = '   '

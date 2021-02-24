@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require_relative 'board'
+require_relative 'player'
 Dir['./lib/pieces/*.rb'].sort.each(&method(:require))
 
 # Game object class
@@ -10,6 +11,9 @@ class Game
 
   def initialize
     @board = Board.new
+    @player_one = Player.new('bob', 'white')
+    @player_two = Player.new('john', 'black')
+    @current_player = @player_one
   end
 
   def set_board
@@ -22,7 +26,7 @@ class Game
   def player_turn
     player_turn_prompt
     loop do
-      coordinates = board.update_board(select_start, select_target)
+      coordinates = board.update_board(select_start, select_target, @current_player)
       return if coordinates
 
       puts 'Please enter valid coordinates!'
