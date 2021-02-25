@@ -39,7 +39,9 @@ class Game
   end
 
   def set_current_player
-    players.each { |player| @current_player = player if player.color == 'white' }
+    return @current_player = players.select { |player| player if player.color == 'white' } if current_player.nil?
+
+    @current_player = @current_player == players[0] ? players[1] : players[0]
   end
 
   def set_player_one
@@ -80,7 +82,6 @@ g = Game.new
 g.set_board
 g.set_players
 g.set_current_player
-p g.players
 p g.current_player
 g.board.show_board
 g.player_turn
