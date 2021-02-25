@@ -39,6 +39,10 @@ module Displayable
     puts 'tbd'
   end
 
+  def player_color_prompt
+    puts 'Player 1, choose a set of pieces by entering "white" or "black"'
+  end
+
   def prompt_for_start
     puts 'Please enter a starting coordinate (e.g. "a2")'
   end

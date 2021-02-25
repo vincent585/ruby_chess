@@ -2,10 +2,10 @@
 
 # Player object
 class Player
-  attr_reader :name, :color
+  attr_reader :number, :color
 
-  def initialize(name, color)
-    @name = name
+  def initialize(number, color)
+    @number = number
     @color = color
   end
 end

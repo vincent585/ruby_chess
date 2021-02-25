@@ -7,13 +7,12 @@ Dir['./lib/pieces/*.rb'].sort.each(&method(:require))
 # Game object class
 class Game
   include Displayable
-  attr_reader :board
+  attr_reader :board, :players, :current_player
 
   def initialize
     @board = Board.new
-    @player_one = Player.new('bob', 'white')
-    @player_two = Player.new('john', 'black')
-    @current_player = @player_one
+    @players = []
+    @current_player = nil
   end
 
   def set_board
@@ -33,6 +32,41 @@ class Game
     end
   end
 
+  def set_players
+    player_color_prompt
+    set_player_one
+    set_player_two
+  end
+
+  def set_current_player
+    return @current_player = players[0] if @current_player.nil?
+
+    @current_player = @current_player == players[0] ? players[1] : players[0]
+  end
+
+  def set_player_one
+    loop do
+      color = valid_color?(select_color)
+      return @players << Player.new(1, color) if color
+
+      puts 'Please enter "white" or "black"'
+    end
+  end
+
+  def set_player_two
+    return players << Player.new(2, 'white') if players[0].color == 'black'
+
+    players << Player.new(2, 'black')
+  end
+
+  def valid_color?(color)
+    color if %w[white black].include?(color)
+  end
+
+  def select_color
+    gets.chomp.downcase
+  end
+
   def select_start
     prompt_for_start
     gets.chomp
@@ -46,6 +80,10 @@ end
 
 g = Game.new
 g.set_board
+g.set_players
+g.set_current_player
+p g.players
+p g.current_player
 g.board.show_board
 g.player_turn
 g.board.show_board
