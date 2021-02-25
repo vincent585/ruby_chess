@@ -39,7 +39,7 @@ class Game
   end
 
   def set_current_player
-    return @current_player = players.select { |player| player if player.color == 'white' } if current_player.nil?
+    return @current_player = players.find { |player| player.color == 'white' } if current_player.nil?
 
     @current_player = @current_player == players[0] ? players[1] : players[0]
   end
