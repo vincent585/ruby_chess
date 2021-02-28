@@ -18,7 +18,7 @@ class Knight < Piece
   end
 
   def valid_move?(current_position, target)
-    MOVES.include?(coordinate_difference(current_position, target)) ? true : false
+    MOVES.include?(coordinate_difference(current_position, target))
   end
 
   private
