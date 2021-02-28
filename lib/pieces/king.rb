@@ -1,16 +1,13 @@
 # frozen_string_literal: true
 
+require_relative 'piece'
+
 # King piece object
-class King
+class King < Piece
   attr_reader :marker, :color
 
   def initialize(marker, color)
     # use "\u2654" for black and "\u265A" for white
-    @marker = marker
-    @color = color
-  end
-
-  def to_s
-    " #{marker} "
+    super(marker, color)
   end
 end

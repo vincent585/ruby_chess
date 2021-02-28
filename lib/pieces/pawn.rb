@@ -1,16 +1,13 @@
 # frozen_string_literal: true
 
+require_relative 'piece'
+
 # Pawn piece object
-class Pawn
+class Pawn < Piece
   attr_reader :marker, :color
 
   def initialize(marker, color)
     # use "\u2659" for black, "\u265F" for white
-    @marker = marker
-    @color = color
-  end
-
-  def to_s
-    " #{marker} "
+    super(marker, color)
   end
 end

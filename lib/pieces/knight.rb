@@ -1,7 +1,9 @@
 # frozen_string_literal: true
 
+require_relative 'piece'
+
 # Knight piece object
-class Knight
+class Knight < Piece
   MOVES =
     [
       [1, 2], [2, 1], [-1, 2], [-2, 1], # upward moves
@@ -12,16 +14,11 @@ class Knight
 
   def initialize(marker, color)
     # use "\u2658" for black, "\u265E" for white to display properly in terminal.
-    @marker = marker
-    @color = color
+    super(marker, color)
   end
 
   def valid_move?(current_position, target)
     MOVES.include?(coordinate_difference(current_position, target)) ? true : false
-  end
-
-  def to_s
-    " #{marker} "
   end
 
   private
