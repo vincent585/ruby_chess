@@ -35,6 +35,20 @@ describe King do
         expect(result).to be true
       end
     end
+
+    context 'when the move is 2 spaces' do
+      it 'is not a valid move' do
+        result = king.valid_move?([7, 4], [5, 4])
+        expect(result).to be false
+      end
+    end
+
+    context 'when the move is a Knight move' do
+      it 'is not a valid move' do
+        result = king.valid_move?([7, 4], [6, 6])
+        expect(result).to be false
+      end
+    end
   end
 end
 
