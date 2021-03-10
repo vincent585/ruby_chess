@@ -21,17 +21,17 @@ class King < Piece
     MOVES.include?(coordinate_difference(current_position, target))
   end
 
-  private
-
-  def coordinate_difference(current_position, target)
-    current_position.zip(target).map { |x, y| y - x }
-  end
-
   def in_check?
     # TODO
   end
 
   def checkmate?
     # TODO
+  end
+
+  private
+
+  def coordinate_difference(current_position, target)
+    current_position.zip(target).map { |x, y| y - x }
   end
 end
