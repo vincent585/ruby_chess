@@ -83,7 +83,7 @@ class Board
     selected_piece = @cells[coordinates[0]][coordinates[1]]
     start = coordinates[0..1]
     target = coordinates[2..3]
-    selected_piece.valid_move?(start, target) && path_clear?(start, target, selected_piece)
+    path_clear?(start, target, selected_piece) && selected_piece.valid_move?(start, target)
   end
 
   def path_clear?(start, target, selected_piece)
