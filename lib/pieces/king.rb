@@ -1,15 +1,11 @@
 # frozen_string_literal: true
 
 require_relative 'piece'
+require './lib/moveable'
 
 # King piece object
 class King < Piece
-  MOVES =
-    [
-      [1, 1], [-1, 1], [1, -1], [-1, -1], # diagonal moves
-      [1, 0], [-1, 0], [0, 1], [0, -1] # horizontal and vertical moves
-    ].freeze
-
+  include Moveable
   attr_reader :marker, :color, :possible_moves
 
   def initialize(marker, color)
@@ -18,7 +14,7 @@ class King < Piece
   end
 
   def valid_move?(current_position, target)
-    MOVES.include?(coordinate_difference(current_position, target))
+    move_set.include?(coordinate_difference(current_position, target))
   end
 
   def in_check?
@@ -31,7 +27,10 @@ class King < Piece
 
   private
 
-  def coordinate_difference(current_position, target)
-    current_position.zip(target).map { |x, y| y - x }
+  def move_set
+    [
+      [1, 1], [-1, 1], [1, -1], [-1, -1], # diagonal moves
+      [1, 0], [-1, 0], [0, 1], [0, -1] # horizontal and vertical moves
+    ].freeze
   end
 end

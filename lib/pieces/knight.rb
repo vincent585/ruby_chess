@@ -1,15 +1,11 @@
 # frozen_string_literal: true
 
 require_relative 'piece'
+require './lib/moveable'
 
 # Knight piece object
 class Knight < Piece
-  MOVES =
-    [
-      [1, 2], [2, 1], [-1, 2], [-2, 1], # upward moves
-      [1, -2], [2, -1], [-1, -2], [-2, -1] # downward moves
-    ].freeze
-
+  include Moveable
   attr_reader :marker, :color
 
   def initialize(marker, color)
@@ -18,12 +14,15 @@ class Knight < Piece
   end
 
   def valid_move?(current_position, target)
-    MOVES.include?(coordinate_difference(current_position, target))
+    move_set.include?(coordinate_difference(current_position, target))
   end
 
   private
 
-  def coordinate_difference(current_position, target)
-    current_position.zip(target).map { |x, y| y - x }
+  def move_set
+    [
+      [1, 2], [2, 1], [-1, 2], [-2, 1], # upward moves
+      [1, -2], [2, -1], [-1, -2], [-2, -1] # downward moves
+    ].freeze
   end
 end

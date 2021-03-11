@@ -1,11 +1,10 @@
 # frozen_string_literal: true
 
 require_relative 'piece'
+require './lib/moveable'
 
 # Bishop piece object
 class Bishop < Piece
-  MOVES = [[1, 1], [1, -1], [-1, 1], [-1, -1]].freeze
-
   attr_reader :marker, :color, :possible_moves
 
   def initialize(marker, color)
@@ -15,10 +14,12 @@ class Bishop < Piece
   end
 
   def valid_move?(current_position, target)
-    possible_moves.each { |diagonal| diagonal.include?(target) }
+    # TODO
   end
 
-  def get_moves(current_position)
-    # TODO
+  private
+
+  def move_set
+    [[1, 1], [1, -1], [-1, 1], [-1, -1]].freeze
   end
 end
