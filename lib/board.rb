@@ -22,6 +22,15 @@ class Board
       cell_not_occupied?(coordinates, current_player)
   end
 
+  def legal_piece_move?(coordinates)
+    selected_piece = @cells[coordinates[0]][coordinates[1]]
+    start = coordinates[0..1]
+    target = coordinates[2..3]
+    return selected_piece.valid_move?(start, target) if selected_piece.is_a?(Knight)
+
+    selected_piece.valid_move?(start, target) && path_clear?(start, target, selected_piece)
+  end
+
   def update_board(start, target, current_player)
     coordinates = convert_coordinates(start, target)
     return nil unless valid_coordinates?(coordinates, current_player) && legal_piece_move?(coordinates)
@@ -79,19 +88,9 @@ class Board
     @cells[coordinates[2]][coordinates[3]].color != current_player.color
   end
 
-  def legal_piece_move?(coordinates)
-    selected_piece = @cells[coordinates[0]][coordinates[1]]
-    start = coordinates[0..1]
-    target = coordinates[2..3]
-    return selected_piece.valid_move?(start, target) if selected_piece.is_a?(Knight)
-
-    selected_piece.valid_move?(start, target) && path_clear?(start, target, selected_piece)
-  end
-
   def path_clear?(start, target, selected_piece)
     path = generate_path(start, target, selected_piece)
     path[1...-1].each do |piece|
-      p piece.location
       return false unless cells[piece.location[0]][piece.location[1]] == '   '
     end
     true
