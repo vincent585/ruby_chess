@@ -7,7 +7,6 @@ module Moveable
       new_coordinates = set_new_coordinates(move, current_position)
       possible_moves << self.class.new(marker, color, new_coordinates) unless new_coordinates.include?(nil)
     end
-    p possible_moves
     possible_moves
   end
 

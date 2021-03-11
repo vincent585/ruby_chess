@@ -27,7 +27,3 @@ class Bishop < Piece
     [[1, 1], [1, -1], [-1, 1], [-1, -1]].freeze
   end
 end
-
-# x = Bishop.new("\u2657", 'black')
-# x.find_moves([7, 2])
-# x.possible_moves.each { |move| p move.location }

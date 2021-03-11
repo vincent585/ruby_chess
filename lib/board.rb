@@ -88,8 +88,11 @@ class Board
 
   def path_clear?(start, target, selected_piece)
     path = generate_path(start, target, selected_piece)
-
-    # TODO
+    path[1...-1].each do |piece|
+      p piece.location
+      return false unless cells[piece.location[0]][piece.location[1]] == '   '
+    end
+    true
   end
 
   def bfs(start, target, selected_piece)
