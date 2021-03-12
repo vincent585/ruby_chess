@@ -6,9 +6,12 @@ require_relative 'piece'
 class Rook < Piece
   attr_reader :marker, :color
 
-  def initialize(marker, color)
+  def initialize(marker, color, location = nil)
     # use "\u2656" for black, "\u265C" for white
     super(marker, color)
+    @location = location
+    @possible_moves = []
+    @parent = nil
   end
 
   def valid_move?(current_position, target)
