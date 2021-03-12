@@ -1,10 +1,13 @@
 # frozen_string_literal: true
 
 require_relative 'piece'
+require './lib/moveable'
 
 # Rook piece object
 class Rook < Piece
+  include Moveable
   attr_reader :marker, :color
+  attr_accessor :location, :parent
 
   def initialize(marker, color, location = nil)
     # use "\u2656" for black, "\u265C" for white
