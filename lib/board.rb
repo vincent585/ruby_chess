@@ -30,6 +30,7 @@ class Board
     target = coordinates[2..3]
     return selected_piece.valid_move?(start, target) if selected_piece.is_a?(Knight)
 
+    # may need to reset selected_piece.possible_moves here to avoid a massive array
     selected_piece.valid_move?(start, target) && path_clear?(start, target, selected_piece)
   end
 
