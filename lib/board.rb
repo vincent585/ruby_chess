@@ -1,11 +1,13 @@
 # frozen_string_literal: true
 
 require_relative 'displayable'
+require_relative 'moveable'
 require_relative 'player'
 Dir['./lib/pieces/*.rb'].sort.each(&method(:require))
 
 # Board class representing the Chess board
 class Board
+  include Moveable
   include Displayable
   attr_reader :cells
 
@@ -94,46 +96,6 @@ class Board
       return false unless cells[piece.location[0]][piece.location[1]] == '   '
     end
     true
-  end
-
-  def bfs(start, target, selected_piece)
-    selected_piece.location = start
-    discovered = [selected_piece]
-    queue = [selected_piece]
-
-    until queue.empty?
-      current = queue.shift
-      return current if current.location == target
-
-      add_to_discovered_and_queue(current, discovered, queue)
-    end
-  end
-
-  def add_to_discovered_and_queue(current, discovered, queue)
-    current.find_moves.each do |move|
-      next if discovered.include?(move)
-
-      discovered << move
-      queue << move
-      move.parent = current
-    end
-  end
-
-  def generate_path(start, target, selected_piece)
-    last_node = bfs(start, target, selected_piece)
-    return if last_node.nil?
-
-    path = retrieve_parent_nodes(last_node)
-    path
-  end
-
-  def retrieve_parent_nodes(last_node)
-    path = [last_node]
-    until last_node.parent.nil?
-      path.unshift(last_node.parent)
-      last_node = last_node.parent
-    end
-    path
   end
 
   def convert_coordinates(start, target, coordinates = [start, target])
