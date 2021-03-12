@@ -50,6 +50,14 @@ module Moveable
     path
   end
 
+  def legal_diagonal?(current_position, target)
+    (current_position[0] - target[0]).abs == (current_position[1] - target[1]).abs
+  end
+
+  def legal_orthogonal?(current_position, target)
+    (current_position[0] - target[0]).zero? || (current_position[1] - target[1]).zero?
+  end
+
   def coordinate_difference(current_position, target)
     current_position.zip(target).map { |x, y| y - x }
   end

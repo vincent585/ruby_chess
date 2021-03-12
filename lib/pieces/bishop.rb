@@ -18,7 +18,7 @@ class Bishop < Piece
   end
 
   def valid_move?(current_position, target)
-    (current_position[0] - target[0]).abs == (current_position[1] - target[1]).abs
+    legal_diagonal?(current_position, target)
   end
 
   private

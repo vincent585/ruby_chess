@@ -18,7 +18,7 @@ class Rook < Piece
   end
 
   def valid_move?(current_position, target)
-    (current_position[0] - target[0]).zero? || (current_position[1] - target[1]).zero?
+    legal_orthogonal?(current_position, target)
   end
 
   private
