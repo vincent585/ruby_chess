@@ -28,7 +28,7 @@ class Board
     selected_piece = @cells[coordinates[0]][coordinates[1]]
     start = coordinates[0..1]
     target = coordinates[2..3]
-    return selected_piece.valid_move?(start, target) if selected_piece.is_a?(Knight)
+    return selected_piece.valid_move?(start, target) if selected_piece.is_a?(Knight) || selected_piece.is_a?(King)
 
     # may need to reset selected_piece.possible_moves here to avoid a massive array
     selected_piece.valid_move?(start, target) && path_clear?(start, target, selected_piece)
