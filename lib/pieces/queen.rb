@@ -1,12 +1,9 @@
 # frozen_string_literal: true
 
 require_relative 'piece'
-require './lib/moveable'
 
 # Queen piece object
 class Queen < Piece
-  include Moveable
-  attr_reader :marker, :color
   attr_accessor :location, :parent
 
   def initialize(marker, color, location = nil)

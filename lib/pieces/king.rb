@@ -1,13 +1,9 @@
 # frozen_string_literal: true
 
 require_relative 'piece'
-require './lib/moveable'
 
 # King piece object
 class King < Piece
-  include Moveable
-  attr_reader :marker, :color, :possible_moves
-
   def initialize(marker, color)
     # use "\u2654" for black and "\u265A" for white
     super(marker, color)

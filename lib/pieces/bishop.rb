@@ -1,12 +1,9 @@
 # frozen_string_literal: true
 
 require_relative 'piece'
-require './lib/moveable'
 
 # Bishop piece object
 class Bishop < Piece
-  include Moveable
-  attr_reader :marker, :color, :possible_moves
   attr_accessor :location, :parent
 
   def initialize(marker, color, location = nil)
