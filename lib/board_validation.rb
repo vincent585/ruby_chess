@@ -20,19 +20,19 @@ module BoardValidation
   end
 
   def clear_row?(start, target)
-    start_column = start.last
-    range = target.last > start_column ? (start_column + 1...target.last) : (target.last + 1...start_column)
-    range.each do |col|
-      return false if @cells[start.first][col] != '   '
+    direction = target.last > start.last ? 1 : -1
+    len = (target.last - start.last).abs
+    (1...len).each do |idx|
+      return false if @cells[start.first][start.last + (idx * direction)] != '   '
     end
     true
   end
 
   def clear_column?(start, target)
-    start_row = start.first
-    range = target.first > start_row ? (start_row + 1...target.first) : (target.first + 1...start_row)
-    range.each do |row|
-      return false if @cells[row][target.last] != '   '
+    direction = target.first > start.first ? 1 : -1
+    len = (target.first - start.first).abs
+    (1...len).each do |idx|
+      return false if @cells[start.first + (idx * direction)][start.last] != '   '
     end
     true
   end
