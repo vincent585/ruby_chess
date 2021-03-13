@@ -28,11 +28,8 @@ describe Board do
     end
 
     context 'when the selected piece move is obstructed' do
-      before do
-        board.set_white_pawns
-      end
-
       it 'is not a legal piece move' do
+        board.set_white_pawns
         result = board.legal_piece_move?([7, 2, 5, 0])
         expect(result).to be false
       end

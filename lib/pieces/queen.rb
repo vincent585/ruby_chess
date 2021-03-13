@@ -4,14 +4,9 @@ require_relative 'piece'
 
 # Queen piece object
 class Queen < Piece
-  attr_accessor :location, :parent
-
-  def initialize(marker, color, location = nil)
+  def initialize(marker, color)
     # use "\u2655" for black, "\u265B" for white
     super(marker, color)
-    @location = location
-    @possible_moves = []
-    @parent = nil
   end
 
   def valid_move?(current_position, target)

@@ -4,7 +4,7 @@ require_relative 'piece'
 
 # Rook piece object
 class Rook < Piece
-  attr_accessor :location, :parent
+  attr_accessor :location, :parent, :possible_moves
 
   def initialize(marker, color, location = nil)
     # use "\u2656" for black, "\u265C" for white

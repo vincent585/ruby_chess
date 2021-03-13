@@ -1,13 +1,13 @@
 # frozen_string_literal: true
 
 require_relative 'displayable'
-require_relative 'moveable'
+require_relative 'board_validation'
 require_relative 'player'
 Dir['./lib/pieces/*.rb'].sort.each(&method(:require))
 
 # Board class representing the Chess board
 class Board
-  include Moveable
+  include BoardValidation
   include Displayable
   attr_reader :cells
 
@@ -28,9 +28,6 @@ class Board
     selected_piece = @cells[coordinates[0]][coordinates[1]]
     start = coordinates[0..1]
     target = coordinates[2..3]
-    return selected_piece.valid_move?(start, target) if selected_piece.is_a?(Knight) || selected_piece.is_a?(King)
-
-    # may need to reset selected_piece.possible_moves here to avoid a massive array
     selected_piece.valid_move?(start, target) && path_clear?(start, target, selected_piece)
   end
 
@@ -69,35 +66,6 @@ class Board
   end
 
   private
-
-  def different_cell?(coordinates)
-    coordinates[0..1] != coordinates[2..3]
-  end
-
-  def piece_selected?(coordinates, current_player)
-    start = @cells[coordinates[0]][coordinates[1]]
-    start != '   ' && start.color == current_player.color
-  end
-
-  def on_the_board?(coordinates)
-    coordinates.all? { |coordinate| coordinate.between?(0, 7) }
-  end
-
-  def cell_not_occupied?(coordinates, current_player)
-    @cells[coordinates[2]][coordinates[3]] == '   ' || not_friendly_piece?(coordinates, current_player)
-  end
-
-  def not_friendly_piece?(coordinates, current_player)
-    @cells[coordinates[2]][coordinates[3]].color != current_player.color
-  end
-
-  def path_clear?(start, target, selected_piece)
-    path = generate_path(start, target, selected_piece)
-    path[1...-1].each do |piece|
-      return false unless cells[piece.location[0]][piece.location[1]] == '   '
-    end
-    true
-  end
 
   def convert_coordinates(start, target, coordinates = [start, target])
     coordinates = coordinates.map(&:chars)
