@@ -24,16 +24,18 @@ class Board
       cell_not_occupied?(coordinates, current_player)
   end
 
-  def legal_piece_move?(coordinates)
+  def legal_piece_move?(coordinates, current_player)
     selected_piece = @cells[coordinates[0]][coordinates[1]]
     start = coordinates[0..1]
     target = coordinates[2..3]
+    return valid_pawn_move?(start, target, selected_piece, current_player) if selected_piece.is_a?(Pawn)
+
     selected_piece.valid_move?(start, target) && path_clear?(start, target, selected_piece)
   end
 
   def update_board(start, target, current_player)
     coordinates = convert_coordinates(start, target)
-    return nil unless valid_coordinates?(coordinates, current_player) && legal_piece_move?(coordinates)
+    return nil unless valid_coordinates?(coordinates, current_player) && legal_piece_move?(coordinates, current_player)
 
     @cells[coordinates[2]][coordinates[3]] = @cells[coordinates[0]][coordinates[1]]
     @cells[coordinates[0]][coordinates[1]] = '   '

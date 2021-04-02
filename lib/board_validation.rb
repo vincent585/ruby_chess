@@ -70,4 +70,22 @@ module BoardValidation
   def not_friendly_piece?(coordinates, current_player)
     @cells[coordinates[2]][coordinates[3]].color != current_player.color
   end
+
+  def valid_pawn_move?(start, target, pawn, current_player)
+    move = pawn.coordinate_difference(start, target)
+    return false unless pawn.vald_move?(start, target)
+
+    forward_moves = [[1, 0], [2, 0]]
+    diagonal_moves = [[1, 1], 1, -1]
+    return legal_pawn_forward?(start, target) if forward_moves.include?(move)
+    return legal_pawn_diagonal?(target, current_player) if diagonal_moves.include?(move)
+  end
+
+  def legal_pawn_forward?(start, target)
+    @cells[target.first][target.last] == '   ' && clear_column?(start, target)
+  end
+
+  def legal_pawn_diagonal?(target, current_player)
+    @cells[target.first][target.last].color != current_player.color
+  end
 end
