@@ -15,14 +15,14 @@ describe Board do
 
     context 'when the selected piece move is a valid Knight move' do
       it 'is a legal piece move' do
-        result = board.legal_piece_move?([7, 1, 5, 0])
+        result = board.legal_piece_move?([7, 1, 5, 0], player)
         expect(result).to be true
       end
     end
 
     context 'when the selected piece is a valid move and unobstructed' do
       it 'is a legal piece move' do
-        result = board.legal_piece_move?([7, 2, 5, 0])
+        result = board.legal_piece_move?([7, 2, 5, 0], player)
         expect(result).to be true
       end
     end
@@ -30,14 +30,14 @@ describe Board do
     context 'when the selected piece move is obstructed' do
       it 'is not a legal piece move' do
         board.set_white_pawns
-        result = board.legal_piece_move?([7, 2, 5, 0])
+        result = board.legal_piece_move?([7, 2, 5, 0], player)
         expect(result).to be false
       end
     end
 
     context 'when the selected piece move is not a valid piece move' do
       it 'is not a legal piece move' do
-        result = board.legal_piece_move?([7, 2, 5, 3])
+        result = board.legal_piece_move?([7, 2, 5, 3], player)
         expect(result).to be false
       end
     end
