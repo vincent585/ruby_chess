@@ -4,6 +4,8 @@ require_relative 'piece'
 
 # Pawn piece object
 class Pawn < Piece
+  attr_accessor :moved
+
   def initialize(marker, color)
     # use "\u2659" for black, "\u265F" for white
     super(marker, color)
@@ -11,11 +13,10 @@ class Pawn < Piece
   end
 
   def valid_move?(current_position, target)
-    move_type = coordinate_difference(current_position, target)
-    p move_type
-    return false if move_type == [2, 0] && @moved == true
+    move = coordinate_difference(current_position, target)
+    return false if move == [2, 0] && @moved == true
 
-    move_set.include?(move_type)
+    move_set.include?(move)
   end
 
   private

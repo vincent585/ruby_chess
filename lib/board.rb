@@ -37,6 +37,7 @@ class Board
     coordinates = convert_coordinates(start, target)
     return nil unless valid_coordinates?(coordinates, current_player) && legal_piece_move?(coordinates, current_player)
 
+    update_pawn_status(coordinates)
     @cells[coordinates[2]][coordinates[3]] = @cells[coordinates[0]][coordinates[1]]
     @cells[coordinates[0]][coordinates[1]] = '   '
   end
@@ -68,6 +69,10 @@ class Board
   end
 
   private
+
+  def update_pawn_status(coordinates)
+    @cells[coordinates[0]][coordinates[1]].moved = true if @cells[coordinates[0]][coordinates[1]].is_a?(Pawn)
+  end
 
   def convert_coordinates(start, target, coordinates = [start, target])
     coordinates = coordinates.map(&:chars)
