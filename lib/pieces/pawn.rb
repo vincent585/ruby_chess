@@ -12,6 +12,7 @@ class Pawn < Piece
 
   def valid_move?(current_position, target)
     move_type = coordinate_difference(current_position, target)
+    p move_type
     return false if move_type == [2, 0] && @moved == true
 
     move_set.include?(move_type)

@@ -11,6 +11,7 @@ module Moveable
   end
 
   def coordinate_difference(current_position, target)
-    current_position.zip(target).map { |x, y| y - x }
+    return current_position.zip(target).map { |x, y| y - x } if color == 'black'
+    return current_position.zip(target).map { |x, y| x - y } if color == 'white'
   end
 end

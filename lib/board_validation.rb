@@ -73,7 +73,7 @@ module BoardValidation
 
   def valid_pawn_move?(start, target, pawn, current_player)
     move = pawn.coordinate_difference(start, target)
-    return false unless pawn.vald_move?(start, target)
+    return false unless pawn.valid_move?(start, target)
 
     forward_moves = [[1, 0], [2, 0]]
     diagonal_moves = [[1, 1], 1, -1]

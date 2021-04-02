@@ -22,6 +22,15 @@ class Game
     board.set_white_first_row
   end
 
+  def player_turns
+    loop do
+      board.show_board
+      player_turn
+      set_current_player
+      board.show_board
+    end
+  end
+
   def player_turn
     player_turn_prompt
     loop do
@@ -82,7 +91,4 @@ g = Game.new
 g.set_board
 g.set_players
 g.set_current_player
-p g.current_player
-g.board.show_board
-g.player_turn
-g.board.show_board
+g.player_turns
