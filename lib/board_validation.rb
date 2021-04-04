@@ -76,7 +76,7 @@ module BoardValidation
     return false unless pawn.valid_move?(start, target)
 
     forward_moves = [[1, 0], [2, 0]]
-    diagonal_moves = [[1, 1], 1, -1]
+    diagonal_moves = [[1, 1], [1, -1]]
     return legal_pawn_forward?(start, target) if forward_moves.include?(move)
     return legal_pawn_diagonal?(target, current_player) if diagonal_moves.include?(move)
   end
