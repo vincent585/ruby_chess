@@ -84,6 +84,6 @@ module BoardValidation
   end
 
   def legal_pawn_diagonal?(target, current_player)
-    @cells[target.first][target.last].color != current_player.color
+    @cells[target.first][target.last] != '   ' && @cells[target.first][target.last].color != current_player.color
   end
 end
