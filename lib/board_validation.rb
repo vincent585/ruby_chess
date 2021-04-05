@@ -11,9 +11,7 @@ module BoardValidation
     target_column = target.last
 
     return clear_row?(start, target) if start_row == target_row
-
     return clear_column?(start, target) if start_colummn == target_column
-
     return false unless clear_diagonal?(start, target)
 
     true
