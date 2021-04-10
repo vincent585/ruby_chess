@@ -38,37 +38,42 @@ class Board
     return nil unless valid_coordinates?(coordinates, current_player) && legal_piece_move?(coordinates, current_player)
 
     update_pawn_status(coordinates)
-    @cells[coordinates[2]][coordinates[3]] = @cells[coordinates[0]][coordinates[1]]
-    @cells[coordinates[0]][coordinates[1]] = '   '
+    move_piece(coordinates)
   end
 
   def set_black_first_row
     @cells[0] =
       [
-        Rook.new("\u2656", 'black'), Knight.new("\u2658", 'black'), Bishop.new("\u2657", 'black'),
-        Queen.new("\u2655", 'black'), King.new("\u2654", 'black'), Bishop.new("\u2657", 'black'),
-        Knight.new("\u2658", 'black'), Rook.new("\u2656", 'black')
+        Rook.new("\u2656", 'black', [0, 0]), Knight.new("\u2658", 'black', [0, 1]), Bishop.new("\u2657", 'black', [0, 2]),
+        Queen.new("\u2655", 'black', [0, 3]), King.new("\u2654", 'black', [0, 4]), Bishop.new("\u2657", 'black', [0, 5]),
+        Knight.new("\u2658", 'black', [0, 6]), Rook.new("\u2656", 'black', [0, 7])
       ]
   end
 
   def set_white_first_row
     @cells[7] =
       [
-        Rook.new("\u265C", 'white'), Knight.new("\u265E", 'white'), Bishop.new("\u265D", 'white'),
-        Queen.new("\u265B", 'white'), King.new("\u265A", 'white'), Bishop.new("\u265D", 'white'),
-        Knight.new("\u265E", 'white'), Rook.new("\u265C", 'white')
+        Rook.new("\u265C", 'white', [7, 0]), Knight.new("\u265E", 'white', [7, 1]), Bishop.new("\u265D", 'white', [7, 2]),
+        Queen.new("\u265B", 'white', [7, 3]), King.new("\u265A", 'white', [7, 4]), Bishop.new("\u265D", 'white', [7, 5]),
+        Knight.new("\u265E", 'white', [7, 6]), Rook.new("\u265C", 'white', [7, 7])
       ]
   end
 
   def set_black_pawns
-    (0..7).each { |i| @cells[1][i] = Pawn.new("\u2659", 'black') }
+    (0..7).each { |i| @cells[1][i] = Pawn.new("\u2659", 'black', [1, i]) }
   end
 
   def set_white_pawns
-    (0..7).each { |i| @cells[6][i] = Pawn.new("\u265F", 'white') }
+    (0..7).each { |i| @cells[6][i] = Pawn.new("\u265F", 'white', [7, i]) }
   end
 
   private
+
+  def move_piece(coordinates)
+    @cells[coordinates[2]][coordinates[3]] = @cells[coordinates[0]][coordinates[1]]
+    @cells[coordinates[0]][coordinates[1]] = '   '
+    @cells[coordinates[2]][coordinates[3]].location = [coordinates[2], coordinates[3]]
+  end
 
   def update_pawn_status(coordinates)
     @cells[coordinates[0]][coordinates[1]].moved = true if @cells[coordinates[0]][coordinates[1]].is_a?(Pawn)

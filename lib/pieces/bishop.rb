@@ -4,9 +4,9 @@ require_relative 'piece'
 
 # Bishop piece object
 class Bishop < Piece
-  def initialize(marker, color)
+  def initialize(marker, color, location)
     # use "\u2657" for black, "\u265D" for white
-    super(marker, color)
+    super(marker, color, location)
   end
 
   def valid_move?(current_position, target)

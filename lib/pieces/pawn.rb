@@ -6,9 +6,9 @@ require_relative 'piece'
 class Pawn < Piece
   attr_accessor :moved
 
-  def initialize(marker, color)
+  def initialize(marker, color, location)
     # use "\u2659" for black, "\u265F" for white
-    super(marker, color)
+    super(marker, color, location)
     @moved = false
   end
 

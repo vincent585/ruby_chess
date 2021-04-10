@@ -4,9 +4,9 @@ require_relative 'piece'
 
 # Queen piece object
 class Queen < Piece
-  def initialize(marker, color)
+  def initialize(marker, color, location)
     # use "\u2655" for black, "\u265B" for white
-    super(marker, color)
+    super(marker, color, location)
   end
 
   def valid_move?(current_position, target)

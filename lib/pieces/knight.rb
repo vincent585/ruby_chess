@@ -4,9 +4,9 @@ require_relative 'piece'
 
 # Knight piece object
 class Knight < Piece
-  def initialize(marker, color)
+  def initialize(marker, color, location)
     # use "\u2658" for black, "\u265E" for white to display properly in terminal.
-    super(marker, color)
+    super(marker, color, location)
   end
 
   def valid_move?(current_position, target)
