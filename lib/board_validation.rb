@@ -21,7 +21,7 @@ module BoardValidation
     direction = target.last > start.last ? 1 : -1
     len = (target.last - start.last).abs
     (1...len).each do |idx|
-      return false if @cells[start.first][start.last + (idx * direction)] != '   '
+      return false if cells[start.first][start.last + (idx * direction)] != '   '
     end
     true
   end
@@ -30,7 +30,7 @@ module BoardValidation
     direction = target.first > start.first ? 1 : -1
     len = (target.first - start.first).abs
     (1...len).each do |idx|
-      return false if @cells[start.first + (idx * direction)][start.last] != '   '
+      return false if cells[start.first + (idx * direction)][start.last] != '   '
     end
     true
   end
@@ -45,7 +45,7 @@ module BoardValidation
   end
 
   def next_diagonal_square(start, idx, row_direction, col_direction)
-    @cells[start.first + (idx * row_direction)][start.last + (idx * col_direction)]
+    cells[start.first + (idx * row_direction)][start.last + (idx * col_direction)]
   end
 
   def different_cell?(coordinates)

@@ -72,6 +72,10 @@ class Board
   def move_piece(coordinates)
     @cells[coordinates[2]][coordinates[3]] = @cells[coordinates[0]][coordinates[1]]
     @cells[coordinates[0]][coordinates[1]] = '   '
+    update_piece_location(coordinates)
+  end
+
+  def update_piece_location(coordinates)
     @cells[coordinates[2]][coordinates[3]].location = [coordinates[2], coordinates[3]]
   end
 
