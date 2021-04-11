@@ -12,7 +12,7 @@ class King < Piece
   def valid_move?(current_position, target)
     move_set.include?(coordinate_difference(current_position, target))
   end
-  
+
   private
 
   def move_set

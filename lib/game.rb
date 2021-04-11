@@ -2,6 +2,7 @@
 
 require_relative 'board'
 require_relative 'player'
+require_relative 'check_detection'
 Dir['./lib/pieces/*.rb'].sort.each(&method(:require))
 
 # Game object class
