@@ -12,14 +12,28 @@ class Pawn < Piece
     @moved = false
   end
 
-  def valid_move?(current_position, target)
-    move = coordinate_difference(current_position, target)
+  def valid_move?(start, target, board, current_player)
+    move = coordinate_difference(start, target)
     return false if move == [2, 0] && @moved == true
 
-    move_set.include?(move)
+    forward_moves = [[1, 0], [2, 0]]
+    diagonal_moves = [[1, 1], [1, -1]]
+    return legal_pawn_forward?(start, target, board) if forward_moves.include?(move)
+    return legal_pawn_diagonal?(target, current_player, board) if diagonal_moves.include?(move)
+
+    false
   end
 
   private
+
+  def legal_pawn_forward?(start, target, board)
+    board.cells[target.first][target.last] == '   ' && board.clear_column?(start, target)
+  end
+
+  def legal_pawn_diagonal?(target, current_player, board)
+    board.cells[target.first][target.last] != '   ' &&
+      board.cells[target.first][target.last].color != current_player.color
+  end
 
   def move_set
     [[1, 0], [2, 0], [1, 1], [1, -1]].freeze

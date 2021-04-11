@@ -28,7 +28,7 @@ class Board
     selected_piece = @cells[coordinates[0]][coordinates[1]]
     start = coordinates[0..1]
     target = coordinates[2..3]
-    return valid_pawn_move?(start, target, selected_piece, current_player) if selected_piece.is_a?(Pawn)
+    return selected_piece.valid_move?(start, target, self, current_player) if selected_piece.is_a?(Pawn)
 
     selected_piece.valid_move?(start, target) && path_clear?(start, target, selected_piece)
   end

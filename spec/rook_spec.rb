@@ -5,7 +5,7 @@
 require './lib/pieces/rook'
 
 describe Rook do
-  subject(:rook) { described_class.new("\u2656", 'black') }
+  subject(:rook) { described_class.new("\u2656", 'black', [7, 0]) }
 
   describe '#valid_move?' do
     context 'when the move is 3 spaces forward' do

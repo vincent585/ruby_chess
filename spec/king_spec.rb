@@ -5,7 +5,7 @@
 require './lib/pieces/king'
 
 describe King do
-  subject(:king) { described_class.new("\u2654", 'black') }
+  subject(:king) { described_class.new("\u2654", 'black', [0, 0]) }
 
   describe '#valid_move?' do
     context 'when the move is forward one space' do

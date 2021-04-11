@@ -5,7 +5,7 @@
 require './lib/pieces/queen'
 
 describe Queen do
-  subject(:queen) { described_class.new("\u2655", 'black') }
+  subject(:queen) { described_class.new("\u2655", 'black', [0, 0]) }
 
   describe '#valid_move?' do
     context 'when the move is forward 5 spaces' do

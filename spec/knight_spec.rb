@@ -3,7 +3,7 @@
 require './lib/pieces/knight'
 
 describe Knight do
-  subject(:knight) { described_class.new("\u2658", 'black') }
+  subject(:knight) { described_class.new("\u2658", 'black', [0, 0]) }
 
   describe '#valid_move?' do
     context 'when the move is forward 2, over 1' do

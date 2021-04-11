@@ -5,7 +5,7 @@
 require './lib/pieces/bishop'
 
 describe Bishop do
-  subject(:bishop) { described_class.new("\u2657", 'black') }
+  subject(:bishop) { described_class.new("\u2657", 'black', [0, 0]) }
 
   describe '#valid_move?' do
     context 'when the move is diagonal forward-right two squares' do
