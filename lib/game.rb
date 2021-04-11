@@ -8,6 +8,7 @@ Dir['./lib/pieces/*.rb'].sort.each(&method(:require))
 # Game object class
 class Game
   include Displayable
+  include CheckDetection
   attr_reader :board, :players, :current_player
 
   def initialize
@@ -28,7 +29,6 @@ class Game
       board.show_board
       player_turn
       set_current_player
-      board.show_board
     end
   end
 
