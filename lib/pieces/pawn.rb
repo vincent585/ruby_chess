@@ -24,6 +24,18 @@ class Pawn < Piece
     false
   end
 
+  def generate_moves(board, current_player, moves = [])
+    board.cells.each_with_index do |row, i|
+      row.each_with_index do |_cell, j|
+        move = [i, j]
+        moves << move if board.cell_not_occupied?(move, current_player) &&
+                         valid_move?(location, move, board, current_player) &&
+                         board.path_clear?(location, move, self)
+      end
+    end
+    moves
+  end
+
   private
 
   def legal_pawn_forward?(start, target, board)
