@@ -48,24 +48,23 @@ module BoardValidation
     cells[start.first + (idx * row_direction)][start.last + (idx * col_direction)]
   end
 
-  def different_cell?(coordinates)
-    coordinates[0..1] != coordinates[2..3]
+  def different_cell?(start, target)
+    start != target
   end
 
-  def piece_selected?(coordinates, current_player)
-    start = @cells[coordinates[0]][coordinates[1]]
-    start != '   ' && start.color == current_player.color
+  def piece_selected?(start, current_player)
+    @cells[start.first][start.last] != '   ' && @cells[start.first][start.last].color == current_player.color
   end
 
   def on_the_board?(coordinates)
     coordinates.all? { |coordinate| coordinate.between?(0, 7) }
   end
 
-  def cell_not_occupied?(coordinates, current_player)
-    @cells[coordinates[2]][coordinates[3]] == '   ' || not_friendly_piece?(coordinates, current_player)
+  def cell_not_occupied?(target, current_player)
+    @cells[target.first][target.last] == '   ' || not_friendly_piece?(target, current_player)
   end
 
-  def not_friendly_piece?(coordinates, current_player)
-    @cells[coordinates[2]][coordinates[3]].color != current_player.color
+  def not_friendly_piece?(target, current_player)
+    @cells[target.first][target.last].color != current_player.color
   end
 end

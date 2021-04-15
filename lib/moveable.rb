@@ -15,11 +15,13 @@ module Moveable
     return current_position.zip(target).map { |x, y| x - y } if color == 'white'
   end
 
-  def generate_moves(board, moves = [])
+  def generate_moves(board, current_player, moves = [])
     board.cells.each_with_index do |row, i|
-      row.each_with_index do |cell, j|
+      row.each_with_index do |_cell, j|
         move = [i, j]
-        moves << move if cell == '   ' && valid_move?(location, move) && board.path_clear?(location, move, self)
+        moves << move if board.cell_not_occupied?(move, current_player) &&
+                         valid_move?(location, move) &&
+                         board.path_clear?(location, move, self)
       end
     end
     moves

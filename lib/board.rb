@@ -18,10 +18,12 @@ class Board
   end
 
   def valid_coordinates?(coordinates, current_player)
+    start = [coordinates[0], coordinates[1]]
+    target = [coordinates[2], coordinates[3]]
     on_the_board?(coordinates) &&
-      different_cell?(coordinates) &&
-      piece_selected?(coordinates, current_player) &&
-      cell_not_occupied?(coordinates, current_player)
+      different_cell?(start, target) &&
+      piece_selected?(start, current_player) &&
+      cell_not_occupied?(target, current_player)
   end
 
   def legal_piece_move?(coordinates, current_player)
