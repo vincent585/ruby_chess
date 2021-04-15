@@ -12,7 +12,7 @@ class Piece
     @marker = marker
     @color = color
     @location = location
-    @captures = []
+    @moves = []
   end
 
   def to_s

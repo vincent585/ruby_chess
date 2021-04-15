@@ -24,7 +24,7 @@ class Pawn < Piece
     false
   end
 
-  def generate_moves(board, current_player, moves = [])
+  def generate_moves(board, current_player, moves = @moves)
     board.cells.each_with_index do |row, i|
       row.each_with_index do |_cell, j|
         move = [i, j]
