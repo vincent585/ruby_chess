@@ -28,6 +28,7 @@ class Game
     loop do
       board.show_board
       player_turn
+      generate_piece_moves
       set_current_player
     end
   end
