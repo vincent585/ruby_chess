@@ -6,7 +6,7 @@ require './lib/moveable'
 class Piece
   include Moveable
   attr_reader :marker, :color
-  attr_accessor :location, :captures
+  attr_accessor :location, :moves
 
   def initialize(marker, color, location = nil)
     @marker = marker

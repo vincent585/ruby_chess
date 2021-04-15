@@ -10,11 +10,13 @@ class Game
   include Displayable
   include CheckDetection
   attr_reader :board, :players, :current_player
+  attr_accessor :active_pieces
 
   def initialize
     @board = Board.new
     @players = []
     @current_player = nil
+    @active_pieces = []
   end
 
   def set_board
@@ -27,6 +29,7 @@ class Game
   def player_turns
     loop do
       board.show_board
+      p check?
       player_turn
       generate_piece_moves
       set_current_player
