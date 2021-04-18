@@ -36,7 +36,7 @@ module Displayable
   end
 
   def player_turn_prompt
-    puts 'tbd'
+    puts "#{current_player.color.capitalize}'s move!"
   end
 
   def player_color_prompt

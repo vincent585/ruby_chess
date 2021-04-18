@@ -29,7 +29,7 @@ class Game
   def player_turns
     loop do
       board.show_board
-      p check?
+      check?
       player_turn
       generate_piece_moves
       set_current_player
