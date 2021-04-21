@@ -13,9 +13,10 @@ module CheckDetection
 
   def checkmate?
     king = locate_king
-    if check?(king)
-      king.find_king_moves
-      true if king.moves.all? { |move| check?(move) }
+    if check?(king.location)
+      king.generate_moves(board, current_player)
+      p king.moves
+      king.moves.all? { |move| check?(move) }
     else
       false
     end
@@ -24,8 +25,8 @@ module CheckDetection
   def generate_piece_moves
     board.cells.each do |row|
       row.each do |cell|
-        cell.generate_moves(board, current_player) unless cell == '   ' || cell.color != current_player.color
         active_pieces << cell unless cell == '   '
+        cell.generate_moves(board, current_player) unless cell == '   '
       end
     end
   end
@@ -34,9 +35,5 @@ module CheckDetection
     active_pieces.each do |piece|
       return piece if piece.is_a?(King) && piece.color == current_player.color
     end
-  end
-
-  def find_king_moves
-    king.generate_moves(board, current_player)
   end
 end
