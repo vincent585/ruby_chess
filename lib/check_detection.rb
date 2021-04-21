@@ -15,7 +15,6 @@ module CheckDetection
     king = locate_king
     if check?(king.location)
       king.generate_moves(board, current_player)
-      p king.moves
       king.moves.all? { |move| check?(move) }
     else
       false

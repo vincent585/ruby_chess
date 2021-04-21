@@ -29,7 +29,7 @@ class Game
   def player_turns
     loop do
       board.show_board
-      p checkmate? unless active_pieces.empty?
+      checkmate? unless active_pieces.empty?
       player_turn
       generate_piece_moves
       set_current_player
