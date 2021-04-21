@@ -29,9 +29,9 @@ class Game
   def player_turns
     loop do
       board.show_board
-      check?
-      player_turn
       generate_piece_moves
+      checkmate?
+      player_turn
       set_current_player
     end
   end
