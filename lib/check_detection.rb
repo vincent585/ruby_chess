@@ -22,12 +22,17 @@ module CheckDetection
   end
 
   def generate_piece_moves
+    find_active_pieces
+    active_pieces.each { |piece| piece.generate_moves(board, current_player) }
+  end
+
+  def find_active_pieces(pieces = [])
     board.cells.each do |row|
       row.each do |cell|
-        active_pieces << cell unless cell == '   '
-        cell.generate_moves(board, current_player) unless cell == '   '
+        pieces << cell unless cell == '   '
       end
     end
+    @active_pieces = pieces
   end
 
   def locate_king
