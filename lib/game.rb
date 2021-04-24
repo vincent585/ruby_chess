@@ -10,13 +10,14 @@ class Game
   include Displayable
   include CheckDetection
   attr_reader :board, :players, :current_player
-  attr_accessor :active_pieces
+  attr_accessor :active_pieces, :can_attack_king
 
   def initialize
     @board = Board.new
     @players = []
     @current_player = nil
     @active_pieces = []
+    @can_attack_king = []
   end
 
   def set_board
@@ -29,7 +30,8 @@ class Game
   def player_turns
     loop do
       board.show_board
-      checkmate? unless active_pieces.empty?
+      return game_over if checkmate?
+
       player_turn
       generate_piece_moves
       set_current_player

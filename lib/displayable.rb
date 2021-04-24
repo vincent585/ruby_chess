@@ -54,4 +54,8 @@ module Displayable
   def print_column_letters
     puts '  a  b  c  d  e  f  g  h'
   end
+
+  def game_over
+    puts "Game over. Better luck next time, Player #{current_player.number}."
+  end
 end
