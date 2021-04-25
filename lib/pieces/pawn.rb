@@ -13,27 +13,27 @@ class Pawn < Piece
   end
 
   def valid_move?(start, target, board)
-    move = coordinate_difference(start, target)
-    return false if move == [2, 0] && @moved == true
+    pawn_move = coordinate_difference(start, target)
+    return false unless move_set.include?(pawn_move)
+    return false if pawn_move == [2, 0] && @moved == true
 
     forward_moves = [[1, 0], [2, 0]]
     diagonal_moves = [[1, 1], [1, -1]]
-    return legal_pawn_forward?(start, target, board) if forward_moves.include?(move)
-    return legal_pawn_diagonal?(target, board) if diagonal_moves.include?(move)
+    return legal_pawn_forward?(start, target, board) if forward_moves.include?(pawn_move)
+    return legal_pawn_diagonal?(target, board) if diagonal_moves.include?(pawn_move)
 
     false
   end
 
-  def generate_moves(board, move_set = [])
+  def generate_moves(board, possible_moves = [])
     board.cells.each_with_index do |row, i|
       row.each_with_index do |_cell, j|
         move = [i, j]
-        move_set << move if board.cell_not_occupied?(location, move) &&
-                            valid_move?(location, move, board) &&
-                            board.path_clear?(location, move, self)
+        possible_moves << move if valid_move?(location, move, board)
       end
     end
-    @moves = move_set
+    @moves = possible_moves
+    p [marker, possible_moves]
   end
 
   private

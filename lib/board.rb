@@ -66,7 +66,7 @@ class Board
   end
 
   def set_white_pawns
-    (0..7).each { |i| @cells[6][i] = Pawn.new("\u265F", 'white', [7, i]) }
+    (0..7).each { |i| @cells[6][i] = Pawn.new("\u265F", 'white', [6, i]) }
   end
 
   private
