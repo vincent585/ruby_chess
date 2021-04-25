@@ -41,6 +41,7 @@ class Board
 
     update_pawn_status(coordinates)
     move_piece(coordinates)
+    self
   end
 
   def set_black_first_row

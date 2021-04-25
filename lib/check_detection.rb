@@ -28,8 +28,8 @@ module CheckDetection
     end
   end
 
-  def generate_piece_moves
-    find_active_pieces
+  def generate_piece_moves(board = @board)
+    find_active_pieces(board)
     active_pieces.each { |piece| piece.generate_moves(board) }
   end
 
@@ -42,7 +42,7 @@ module CheckDetection
     end
   end
 
-  def find_active_pieces
+  def find_active_pieces(board = @board)
     @active_pieces = []
     board.cells.each do |row|
       row.each do |cell|
@@ -65,16 +65,11 @@ module CheckDetection
   end
 
   def blocking_move?(king)
-    # check friendly piece moves. if the piece's move list includes the piece that is attacking the king, return true (can capture attacking piece)
     active_pieces.each do |piece|
       next unless piece.color == current_player.color
-
       return true if can_capture?(piece) || can_block?(king, piece)
     end
     false
-    # if the attacking piece cannot be captured, check to see if it can be blocked.
-    # to do this, slice the array of attacking piece's moves from the current position up to but not including the king's position.
-    # iterate over all friendly piece's moves. if any of the attacking piece's "path" is included in the friendly piece's moves, return true.
   end
 
   def can_block?(king, piece, attacking = @can_attack_king.first)
