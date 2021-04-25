@@ -69,7 +69,7 @@ module CheckDetection
     active_pieces.each do |piece|
       next unless piece.color == current_player.color
 
-      return true if can_capture?(piece) || can_block?(piece)
+      return true if can_capture?(piece) || can_block?(king, piece)
     end
     false
     # if the attacking piece cannot be captured, check to see if it can be blocked.
@@ -77,11 +77,55 @@ module CheckDetection
     # iterate over all friendly piece's moves. if any of the attacking piece's "path" is included in the friendly piece's moves, return true.
   end
 
-  def can_block?(piece, attacking = @can_attack_king.first)
-    false
+  def can_block?(king, piece, attacking = @can_attack_king.first)
+    path = path_to_king(attacking, king)
+    p path
   end
 
   def can_capture?(piece)
     piece.moves.include?(can_attack_king.first.location)
+  end
+
+  def path_to_king(attacking_piece, king)
+    start_row = attacking_piece.location.first
+    start_col = attacking_piece.location.last
+    target_row = king.location.first
+    target_col = king.location.last
+
+    return row_path([start_row, start_col], [target_row, target_col]) if start_row == target_row
+    return col_path([start_row, start_col], [target_row, target_col]) if start_col == target_col
+
+    diagonal_path([start_row, start_col], [target_row, target_col])
+  end
+
+  def row_path(start, target, path = [])
+    direction = target.last > start.last ? 1 : -1
+    len = (target.last - start.last).abs
+    (1...len).each do |idx|
+      path << [start.first, start.last + (idx * direction)]
+    end
+    path
+  end
+
+  def col_path(start, target, path = [])
+    direction = target.first > start.first ? 1 : -1
+    len = (target.first - start.first).abs
+    (1...len).each do |idx|
+      path << [start.first + (idx * direction), start.last]
+    end
+    path
+  end
+
+  def diagonal_path(start, target, path = [])
+    row_direction = target.first > start.first ? 1 : -1
+    col_direction = target.last > start.last ? 1 : -1
+    len = (target.first - start.first).abs
+    (1...len).each do |i|
+      path << next_diagonal_square(start, i, row_direction, col_direction)
+    end
+  end
+
+  def next_diagonal_square(start, idx, row_direction, col_direction)
+    [start.first + (idx * row_direction), start.last + (idx * col_direction)]
   end
 end
