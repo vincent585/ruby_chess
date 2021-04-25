@@ -79,7 +79,7 @@ module CheckDetection
 
   def can_block?(king, piece, attacking = @can_attack_king.first)
     path = path_to_king(attacking, king)
-    p path
+    path.any? { |square| piece.moves.include?(square) }
   end
 
   def can_capture?(piece)
