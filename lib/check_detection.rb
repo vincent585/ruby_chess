@@ -18,13 +18,11 @@ module CheckDetection
   end
 
   def checkmate?
-    return false if active_pieces.empty?
-
     king = locate_king
     if double_check?(king.location)
-      king_move_available?(king)
+      return true unless king_move_available?(king)
     elsif single_check?(king.location)
-      king_move_available?(king) || blocking_move?(king)
+      return true unless king_move_available?(king) || blocking_move?(king)
     else
       false
     end
@@ -61,7 +59,7 @@ module CheckDetection
 
   def king_move_available?(king)
     king.generate_moves(board)
-    return false if king.moves.all? { |move| can_attack_king.each { |piece| piece.moves.include?(move) } }
+    return false if king.moves.all? { |move| can_attack_king.any? { |piece| piece.moves.include?(move) } }
 
     true
   end
@@ -71,18 +69,19 @@ module CheckDetection
     active_pieces.each do |piece|
       next unless piece.color == current_player.color
 
-      return true if can_block?(piece) || can_capture?(piece)
+      return true if can_capture?(piece) || can_block?(piece)
     end
+    false
     # if the attacking piece cannot be captured, check to see if it can be blocked.
     # to do this, slice the array of attacking piece's moves from the current position up to but not including the king's position.
     # iterate over all friendly piece's moves. if any of the attacking piece's "path" is included in the friendly piece's moves, return true.
   end
 
   def can_block?(piece, attacking = @can_attack_king.first)
-    puts 'hello from can_block'
+    false
   end
 
   def can_capture?(piece)
-    piece.moves.include?(can_attack_king.first)
+    piece.moves.include?(can_attack_king.first.location)
   end
 end

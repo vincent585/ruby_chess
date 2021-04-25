@@ -33,7 +33,6 @@ class Pawn < Piece
       end
     end
     @moves = possible_moves
-    p [marker, possible_moves]
   end
 
   private

@@ -30,10 +30,10 @@ class Game
   def player_turns
     loop do
       board.show_board
+      generate_piece_moves
       return game_over if checkmate?
 
       player_turn
-      generate_piece_moves
       set_current_player
     end
   end
