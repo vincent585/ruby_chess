@@ -60,11 +60,11 @@ module BoardValidation
     coordinates.all? { |coordinate| coordinate.between?(0, 7) }
   end
 
-  def cell_not_occupied?(target, current_player)
-    @cells[target.first][target.last] == '   ' || not_friendly_piece?(target, current_player)
+  def cell_not_occupied?(start, target)
+    @cells[target.first][target.last] == '   ' || not_friendly_piece?(start, target)
   end
 
-  def not_friendly_piece?(target, current_player)
-    @cells[target.first][target.last].color != current_player.color
+  def not_friendly_piece?(start, target)
+    @cells[target.first][target.last].color != @cells[start.first][start.last].color
   end
 end
