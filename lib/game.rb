@@ -28,9 +28,9 @@ class Game
   end
 
   def player_turns
+    generate_piece_moves
     loop do
       board.show_board
-      generate_piece_moves
       return game_over if checkmate?
 
       player_turn
@@ -84,10 +84,6 @@ class Game
 
   def valid_color?(color)
     color if %w[white black].include?(color)
-  end
-
-  def validate_move(updated_board)
-    # TODO
   end
 
   def valid_player_move?(king)
