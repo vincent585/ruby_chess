@@ -41,17 +41,20 @@ class Game
   def player_turn
     player_turn_prompt
     loop do
-      copy = Marshal.load(Marshal.dump(board))
-      updated_board = copy.update_board(select_start, select_target, @current_player)
+      updated_board = generate_temp_board
       generate_piece_moves(updated_board) unless updated_board.nil?
       king = locate_king
-      if updated_board.nil?
-        puts 'Please enter valid coordinates!'
-      elsif valid_player_move?(king)
-        return @board = updated_board
-      else
-        puts 'That is not a legal move!'
-      end
+      return @board = updated_board if valid_move?(updated_board, king)
+    end
+  end
+
+  def valid_move?(updated_board, king)
+    if updated_board.nil?
+      puts 'Please enter valid coordinates!'
+    elsif player_in_check?(king)
+      true
+    else
+      puts 'That is not a legal move!'
     end
   end
 
@@ -86,7 +89,12 @@ class Game
     color if %w[white black].include?(color)
   end
 
-  def valid_player_move?(king)
+  def generate_temp_board
+    copy = Marshal.load(Marshal.dump(board))
+    copy.update_board(select_start, select_target, @current_player)
+  end
+
+  def player_in_check?(king)
     return false if double_check?(king.location) || single_check?(king.location)
 
     true
