@@ -91,13 +91,35 @@ class Game
 
   def generate_temp_board
     copy = Marshal.load(Marshal.dump(board))
-    copy.update_board(select_start, select_target, @current_player)
+    copy.update_board(validated_start, validated_target, @current_player)
   end
 
   def player_in_check?(king)
     return false if double_check?(king.location) || single_check?(king.location)
 
     true
+  end
+
+  def valid_input?(coordinate)
+    return coordinate if coordinate[0].downcase.between?('a', 'h') && coordinate[1].to_i.between?(1, 8)
+  end
+
+  def validated_start
+    loop do
+      start = valid_input?(select_start)
+      return start if start
+
+      puts 'Please enter valid starting coordinates!'
+    end
+  end
+
+  def validated_target
+    loop do
+      target = valid_input?(select_target)
+      return target if target
+
+      puts 'Please enter valid target coordinates!'
+    end
   end
 
   def select_color
