@@ -101,7 +101,7 @@ class Game
   end
 
   def valid_input?(coordinate)
-    return coordinate if coordinate[0].downcase.between?('a', 'h') && coordinate[1].to_i.between?(1, 8)
+    coordinate[0].downcase.between?('a', 'h') && coordinate[1].to_i.between?(1, 8)
   end
 
   def validated_start
