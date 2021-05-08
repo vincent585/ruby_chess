@@ -51,10 +51,12 @@ class Game
   def valid_move?(updated_board, king)
     if updated_board.nil?
       puts 'Please enter valid coordinates!'
-    elsif player_in_check?(king)
+      false
+    elsif player_not_in_check?(king)
       true
     else
       puts 'That is not a legal move!'
+      false
     end
   end
 
@@ -72,8 +74,9 @@ class Game
 
   def set_player_one
     loop do
-      color = valid_color?(select_color)
-      return @players << Player.new(1, color) if color
+      color = select_color
+      verified_color = valid_color?(color)
+      return @players << Player.new(1, color) if verified_color
 
       puts 'Please enter "white" or "black"'
     end
@@ -86,7 +89,7 @@ class Game
   end
 
   def valid_color?(color)
-    color if %w[white black].include?(color)
+    %w[white black].include?(color)
   end
 
   def generate_temp_board
@@ -94,7 +97,7 @@ class Game
     copy.update_board(validated_start, validated_target, @current_player)
   end
 
-  def player_in_check?(king)
+  def player_not_in_check?(king)
     return false if double_check?(king.location) || single_check?(king.location)
 
     true
