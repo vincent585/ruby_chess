@@ -106,17 +106,19 @@ class Game
 
   def validated_start
     loop do
-      start = valid_input?(select_start)
-      return start if start
+      user_input = select_start
+      verified_input = valid_input?(user_input)
+      return user_input if verified_input
 
-      puts 'Please enter valid starting coordinates!'
+      puts 'Please enter valid coordinates!'
     end
   end
 
   def validated_target
     loop do
-      target = valid_input?(select_target)
-      return target if target
+      user_input = select_target
+      verified_input = valid_input?(user_input)
+      return user_input if verified_input
 
       puts 'Please enter valid target coordinates!'
     end
