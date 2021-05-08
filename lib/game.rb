@@ -104,7 +104,7 @@ class Game
   end
 
   def valid_input?(coordinate)
-    coordinate[0].downcase.between?('a', 'h') && coordinate[1].to_i.between?(1, 8)
+    coordinate[0].between?('a', 'h') && coordinate[1].to_i.between?(1, 8)
   end
 
   def validated_start
@@ -133,12 +133,12 @@ class Game
 
   def select_start
     prompt_for_start
-    gets.chomp
+    gets.chomp.downcase
   end
 
   def select_target
     prompt_for_target
-    gets.chomp
+    gets.chomp.downcase
   end
 end
 

@@ -56,10 +56,6 @@ module BoardValidation
     @cells[start.first][start.last] != '   ' && @cells[start.first][start.last].color == current_player.color
   end
 
-  def on_the_board?(coordinates)
-    coordinates.all? { |coordinate| coordinate.between?(0, 7) }
-  end
-
   def cell_not_occupied?(start, target)
     @cells[target.first][target.last] == '   ' || not_friendly_piece?(start, target)
   end

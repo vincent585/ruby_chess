@@ -20,8 +20,7 @@ class Board
   def valid_coordinates?(coordinates, current_player)
     start = [coordinates[0], coordinates[1]]
     target = [coordinates[2], coordinates[3]]
-    on_the_board?(coordinates) &&
-      different_cell?(start, target) &&
+    different_cell?(start, target) &&
       piece_selected?(start, current_player) &&
       cell_not_occupied?(start, target)
   end
