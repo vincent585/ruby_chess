@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# rubocop:disable Metrics/BlockLength
+
 require './lib/game'
 
 describe Game do
@@ -69,6 +71,18 @@ describe Game do
       end
     end
 
-    context ''
+    context 'when player one selects white' do
+      before do
+        allow(game).to receive(:puts)
+        allow(game).to receive(:select_color).and_return('white')
+      end
+
+      it 'sets player two to black' do
+        game.set_players
+        expect(game.players.last.color).to eq('black')
+      end
+    end
   end
 end
+
+# rubocop:enable Metrics/BlockLength
