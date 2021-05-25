@@ -67,7 +67,7 @@ describe Game do
 
       it 'sets player one to white and displays error message once' do
         game.set_players
-        expect(game.players.first.color).not_to eq('black')
+        expect(game.players.first.color).to eq('white')
       end
     end
 
@@ -80,6 +80,48 @@ describe Game do
       it 'sets player two to black' do
         game.set_players
         expect(game.players.last.color).to eq('black')
+      end
+    end
+  end
+
+  describe '#player_turns' do
+    before do
+      game.instance_variable_set(:@players, [player_one, player_two])
+      game.instance_variable_set(:@current_player, game.players.first)
+    end
+
+    context 'when it is checkmate' do
+      before do
+        allow(game).to receive(:generate_piece_moves)
+        allow(game.board).to receive(:show_board)
+        allow(game).to receive(:checkmate?).and_return(true)
+      end
+
+      it 'ends the loop and displays game over message' do
+        expect(game).to receive(:game_over)
+        game.player_turns
+      end
+    end
+
+    context 'when it is not checkmate, then is' do
+      before do
+        allow(game).to receive(:generate_piece_moves).at_least(:twice)
+        allow(game.board).to receive(:show_board)
+        allow(game).to receive(:checkmate?).and_return(false, true)
+      end
+
+      it 'runs player_turn once and ends the game' do
+        expect(game).to receive(:player_turn).once
+        expect(game).to receive(:game_over).once
+        game.player_turns
+      end
+
+      it 'updates the current player to player 2' do
+        allow(game).to receive(:player_turn)
+        allow(game).to receive(:game_over)
+        expect(game.current_player.color).to eq('white')
+        game.player_turns
+        expect(game.current_player.color).to eq('black')
       end
     end
   end
