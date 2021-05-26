@@ -223,6 +223,51 @@ describe Game do
       end
     end
   end
+
+  describe '#valid_move?' do
+    let(:king) { instance_double(King, location: [7, 4]) }
+    let(:dummy_board) { instance_double(Board) }
+
+    context 'when the player selects invalid coordinates' do
+      let(:nil_board) { nil }
+      
+      it 'is is not a valid move' do
+        allow(game).to receive(:puts)
+        expect(game.valid_move?(nil_board, king)).to be false
+      end
+
+      it 'displays an error message' do
+        expect(game).to receive(:puts).with('Please enter valid coordinates!')
+        game.valid_move?(nil_board, king)
+      end
+    end
+
+    context 'when the player enters valid coordinates and is not in check' do
+      before do
+        allow(game).to receive(:player_not_in_check?).and_return(true)
+      end
+
+      it 'is a valid move' do
+        expect(game.valid_move?(dummy_board, king)).to be true
+      end
+    end
+
+    context 'when the player enters valid coordinates, but does not move out of check' do
+      before do
+        allow(game).to receive(:player_not_in_check?).and_return(false)
+      end
+
+      it 'is not a valid move' do
+        allow(game).to receive(:puts)
+        expect(game.valid_move?(dummy_board, king)).to be false
+      end
+
+      it 'displays the error message' do
+        expect(game).to receive(:puts).with('That is not a legal move!')
+        game.valid_move?(dummy_board, king)
+      end
+    end
+  end
 end
 
 # rubocop:enable Metrics/BlockLength
