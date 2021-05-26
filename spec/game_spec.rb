@@ -187,6 +187,42 @@ describe Game do
       end
     end
   end
+
+  describe '#player_not_in_check?' do
+    let(:king) { instance_double(King, location: [7, 4]) }
+
+    context 'when the player is in double check' do
+      before do
+        allow(game).to receive(:double_check?).and_return(true)
+      end
+
+      it 'is false' do
+        expect(game.player_not_in_check?(king)).to be false
+      end
+    end
+
+    context 'when when the player is in single check' do
+      before do
+        allow(game).to receive(:double_check?).and_return(false)
+        allow(game).to receive(:single_check?).and_return(true)
+      end
+
+      it 'is false' do
+        expect(game.player_not_in_check?(king)).to be false
+      end
+    end
+
+    context 'when the player is not in check' do
+      before do
+        allow(game).to receive(:double_check?).and_return(false)
+        allow(game).to receive(:single_check?).and_return(false)
+      end
+
+      it 'is true' do
+        expect(game.player_not_in_check?(king)).to be true
+      end
+    end
+  end
 end
 
 # rubocop:enable Metrics/BlockLength
