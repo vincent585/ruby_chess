@@ -125,6 +125,68 @@ describe Game do
       end
     end
   end
+
+  describe '#validated_start' do
+    context 'when the user inputs a valid start coordinate' do
+      before do
+        valid_start = 'a7'
+        allow(game).to receive(:select_start).and_return(valid_start)
+      end
+
+      it 'is a valid start coordinate' do
+        expect(game.validated_start).to eq('a7')
+      end
+    end
+
+    context 'when the user inputs an invalid coordinate then a valid coordinate' do
+      before do
+        invalid_start = 'x1'
+        valid_start = 'a7'
+        allow(game).to receive(:select_start).and_return(invalid_start, valid_start)
+      end
+
+      it 'displays an error message then completes the loop' do
+        expect(game).to receive(:puts).with('Please enter valid coordinates!')
+        game.validated_start
+      end
+
+      it 'returns the valid start coordinate' do
+        allow(game).to receive(:puts)
+        expect(game.validated_start).to eq('a7')
+      end
+    end
+  end
+
+  describe '#validated_target' do
+    context 'when the user inputs a valid target coordinate' do
+      before do
+        valid_target = 'a5'
+        allow(game).to receive(:select_target).and_return(valid_target)
+      end
+
+      it 'returns the valid target coordinate' do
+        expect(game.validated_target).to eq('a5')
+      end
+    end
+
+    context 'when the user inputs an invalid coordinate then a valid one' do
+      before do
+        invalid_target = 'foofoostring'
+        valid_target = 'a5'
+        allow(game).to receive(:select_target).and_return(invalid_target, valid_target)
+      end
+
+      it 'displays an error message then completes the loop' do
+        expect(game).to receive(:puts).with('Please enter valid target coordinates!')
+        game.validated_target
+      end
+
+      it 'returns the valid target coordinate' do
+        allow(game).to receive(:puts)
+        expect(game.validated_target).to eq('a5')
+      end
+    end
+  end
 end
 
 # rubocop:enable Metrics/BlockLength
