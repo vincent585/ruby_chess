@@ -230,7 +230,7 @@ describe Game do
 
     context 'when the player selects invalid coordinates' do
       let(:nil_board) { nil }
-      
+
       it 'is is not a valid move' do
         allow(game).to receive(:puts)
         expect(game.valid_move?(nil_board, king)).to be false
