@@ -106,6 +106,31 @@ describe CheckDetection do
       end
     end
   end
+
+  describe '#locate_king' do
+    before do
+      dummy_game.find_active_pieces
+    end
+
+    context 'when the current player is black' do
+      it 'returns the black king' do
+        result = dummy_game.locate_king
+        expect(result.color).to eq('black')
+      end
+    end
+
+    context 'when the current player is white' do
+      before do 
+        dummy_game.find_active_pieces
+        dummy_game.instance_variable_set(:@current_player, player_one)
+      end
+
+      it 'retuns the white king' do
+        result = dummy_game.locate_king
+        expect(result.color).to eq('white')
+      end
+    end
+  end
 end
 
 # rubocop:enable Metrics/BlockLength
