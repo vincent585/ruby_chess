@@ -37,28 +37,72 @@ describe CheckDetection do
   describe '#find_attacking_pieces' do
     let(:king) { King.new("\u2654", 'black', [0, 4]) }
     let(:queen) { Queen.new("\u265B", 'white', [7, 4]) }
-    let(:positions) do
-      [
-        ['   ', '   ', '   ', '   ', king, '   ', '   ', '   '],
-        ['   ', '   ', '   ', '   ', '   ', '   ', '   ', '   '],
-        ['   ', '   ', '   ', '   ', '   ', '   ', '   ', '   '],
-        ['   ', '   ', '   ', '   ', '   ', '   ', '   ', '   '],
-        ['   ', '   ', '   ', '   ', '   ', '   ', '   ', '   '],
-        ['   ', '   ', '   ', '   ', '   ', '   ', '   ', '   '],
-        ['   ', '   ', '   ', '   ', '   ', '   ', '   ', '   '],
-        ['   ', '   ', '   ', '   ', queen, '   ', '   ', '   ']
-      ]
+
+    before do
+      dummy_game.board.instance_variable_set(:@cells, positions)
+      dummy_game.generate_piece_moves
     end
 
     context 'when the queen can attack the king' do
-      before do
-        dummy_game.board.instance_variable_set(:@cells, positions)
-        dummy_game.generate_piece_moves
+      let(:positions) do
+        [
+          ['   ', '   ', '   ', '   ', king, '   ', '   ', '   '],
+          ['   ', '   ', '   ', '   ', '   ', '   ', '   ', '   '],
+          ['   ', '   ', '   ', '   ', '   ', '   ', '   ', '   '],
+          ['   ', '   ', '   ', '   ', '   ', '   ', '   ', '   '],
+          ['   ', '   ', '   ', '   ', '   ', '   ', '   ', '   '],
+          ['   ', '   ', '   ', '   ', '   ', '   ', '   ', '   '],
+          ['   ', '   ', '   ', '   ', '   ', '   ', '   ', '   '],
+          ['   ', '   ', '   ', '   ', queen, '   ', '   ', '   ']
+        ]
       end
 
       it 'is present in pieces that can attack the king' do
         dummy_game.find_attacking_pieces(king.location)
         expect(dummy_game.can_attack_king.first).to eq(queen)
+      end
+    end
+
+    context 'when two pieces can attack the king' do
+      let(:rook) { Rook.new("\u265C", 'white', [0, 0]) }
+      let(:positions) do
+        [
+          [rook, '   ', '   ', '   ', king, '   ', '   ', '   '],
+          ['   ', '   ', '   ', '   ', '   ', '   ', '   ', '   '],
+          ['   ', '   ', '   ', '   ', '   ', '   ', '   ', '   '],
+          ['   ', '   ', '   ', '   ', '   ', '   ', '   ', '   '],
+          ['   ', '   ', '   ', '   ', '   ', '   ', '   ', '   '],
+          ['   ', '   ', '   ', '   ', '   ', '   ', '   ', '   '],
+          ['   ', '   ', '   ', '   ', '   ', '   ', '   ', '   '],
+          ['   ', '   ', '   ', '   ', queen, '   ', '   ', '   ']
+        ]
+      end
+
+      it 'adds two pieces to the pieces that can attack king' do
+        dummy_game.find_attacking_pieces(king.location)
+        expect(dummy_game.can_attack_king.length).to eq(2)
+      end
+    end
+
+    context 'when no pieces can attack the king' do
+      let(:rook) { Rook.new("\u265C", 'white', [1, 0]) }
+      let(:queen) { Queen.new("\u265B", 'white', [7, 3]) }
+      let(:positions) do
+        [
+          ['   ', '   ', '   ', '   ', king, '   ', '   ', '   '],
+          [rook, '   ', '   ', '   ', '   ', '   ', '   ', '   '],
+          ['   ', '   ', '   ', '   ', '   ', '   ', '   ', '   '],
+          ['   ', '   ', '   ', '   ', '   ', '   ', '   ', '   '],
+          ['   ', '   ', '   ', '   ', '   ', '   ', '   ', '   '],
+          ['   ', '   ', '   ', '   ', '   ', '   ', '   ', '   '],
+          ['   ', '   ', '   ', '   ', '   ', '   ', '   ', '   '],
+          ['   ', '   ', '   ', queen, '   ', '   ', '   ', '   ']
+        ]
+      end
+
+      it 'does not add any pieces to the pieces that can attack king' do
+        dummy_game.find_attacking_pieces(king.location)
+        expect(dummy_game.can_attack_king).to be_empty
       end
     end
   end
