@@ -12,7 +12,7 @@ describe CheckDetection do
   before do
     dummy_game.set_board
     dummy_game.instance_variable_set(:@players, [player_one, player_two])
-    dummy_game.instance_variable_set(:@current_player, player_one)
+    dummy_game.instance_variable_set(:@current_player, player_two)
   end
 
   describe '#find_active_pieces' do
@@ -35,8 +35,32 @@ describe CheckDetection do
   end
 
   describe '#find_attacking_pieces' do
-    # edit board cells to reflect attacking positions/non-attacking for each example
-    # TODO
+    let(:king) { King.new("\u2654", 'black', [0, 4]) }
+    let(:queen) { Queen.new("\u265B", 'white', [7, 4]) }
+    let(:positions) do
+      [
+        ['   ', '   ', '   ', '   ', king, '   ', '   ', '   '],
+        ['   ', '   ', '   ', '   ', '   ', '   ', '   ', '   '],
+        ['   ', '   ', '   ', '   ', '   ', '   ', '   ', '   '],
+        ['   ', '   ', '   ', '   ', '   ', '   ', '   ', '   '],
+        ['   ', '   ', '   ', '   ', '   ', '   ', '   ', '   '],
+        ['   ', '   ', '   ', '   ', '   ', '   ', '   ', '   '],
+        ['   ', '   ', '   ', '   ', '   ', '   ', '   ', '   '],
+        ['   ', '   ', '   ', '   ', queen, '   ', '   ', '   ']
+      ]
+    end
+
+    context 'when the queen can attack the king' do
+      before do
+        dummy_game.board.instance_variable_set(:@cells, positions)
+        dummy_game.generate_piece_moves
+      end
+
+      it 'is present in pieces that can attack the king' do
+        dummy_game.find_attacking_pieces(king.location)
+        expect(dummy_game.can_attack_king.first).to eq(queen)
+      end
+    end
   end
 end
 
