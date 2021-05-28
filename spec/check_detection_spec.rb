@@ -359,6 +359,72 @@ describe CheckDetection do
       end
     end
   end
+
+  describe '#king_move_available?' do
+    # TODO
+  end
+
+  describe '#blocking_move?' do
+    # TODO
+  end
+
+  describe '#can_capture?' do
+    let(:queen) { Queen.new('q', 'white', [2, 4]) }
+    let(:king) { King.new("\u2654", 'black', [0, 4]) }
+
+    before do
+      dummy_game.board.instance_variable_set(:@cells, positions)
+      dummy_game.generate_piece_moves
+      dummy_game.instance_variable_set(:@can_attack_king, [queen])
+    end
+
+    context 'when the attacking piece can be captured' do
+      let(:bpwn) { Pawn.new('p', 'black', [1, 5]) }
+      let(:positions) do
+        [
+          ['   ', '   ', '   ', '   ', king, '   ', '   ', '   '],
+          ['   ', '   ', '   ', '   ', '   ', bpwn, '   ', '   '],
+          ['   ', '   ', '   ', '   ', queen, '   ', '   ', '   '],
+          ['   ', '   ', '   ', '   ', '   ', '   ', '   ', '   '],
+          ['   ', '   ', '   ', '   ', '   ', '   ', '   ', '   '],
+          ['   ', '   ', '   ', '   ', '   ', '   ', '   ', '   '],
+          ['   ', '   ', '   ', '   ', '   ', '   ', '   ', '   '],
+          ['   ', '   ', '   ', '   ', '   ', '   ', '   ', '   ']
+        ]
+      end
+
+      it 'can capture' do
+        expect(dummy_game.can_capture?(bpwn)).to be true
+      end
+    end
+
+    context 'when the attacking piece cannot be captured' do
+      let(:positions) do
+        [
+          ['   ', '   ', '   ', '   ', king, '   ', '   ', '   '],
+          ['   ', '   ', '   ', '   ', '   ', '   ', '   ', '   '],
+          ['   ', '   ', '   ', '   ', queen, '   ', '   ', '   '],
+          ['   ', '   ', '   ', '   ', '   ', '   ', '   ', '   '],
+          ['   ', '   ', '   ', '   ', '   ', '   ', '   ', '   '],
+          ['   ', '   ', '   ', '   ', '   ', '   ', '   ', '   '],
+          ['   ', '   ', '   ', '   ', '   ', '   ', '   ', '   '],
+          ['   ', '   ', '   ', '   ', '   ', '   ', '   ', '   ']
+        ]
+      end
+
+      it 'cannot capture' do
+        expect(dummy_game.can_capture?(king)).to be false
+      end
+    end
+  end
+
+  describe '#can_block?' do
+    # TODO
+  end
+
+  describe '#path_to_king' do
+    # TODO
+  end
 end
 
 # rubocop:enable Metrics/BlockLength
