@@ -23,9 +23,8 @@ module CheckDetection
       return true unless king_move_available?(king)
     elsif single_check?(king.location)
       return true unless king_move_available?(king) || blocking_move?(king)
-    else
-      false
     end
+    false
   end
 
   def generate_piece_moves(board = @board)
