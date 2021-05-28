@@ -302,6 +302,62 @@ describe CheckDetection do
         expect(dummy_game.checkmate?).to be false
       end
     end
+
+    context 'when the king is in single check and has a move available' do
+      let(:positions) do
+        [
+          ['   ', '   ', '   ', '   ', king, '   ', '   ', '   '],
+          ['   ', '   ', '   ', '   ', '   ', bpwn, '   ', '   '],
+          ['   ', '   ', '   ', '   ', '   ', '   ', '   ', '   '],
+          ['   ', '   ', '   ', '   ', '   ', '   ', '   ', '   '],
+          ['   ', '   ', '   ', '   ', '   ', '   ', '   ', '   '],
+          ['   ', '   ', '   ', '   ', '   ', '   ', '   ', '   '],
+          ['   ', '   ', '   ', '   ', '   ', '   ', '   ', '   '],
+          ['   ', '   ', '   ', '   ', queen, '   ', '   ', '   ']
+        ]
+      end
+
+      before do
+        dummy_game.board.instance_variable_set(:@cells, positions)
+        dummy_game.generate_piece_moves
+        allow(dummy_game).to receive(:locate_king).and_return(king)
+        allow(dummy_game).to receive(:single_check?).and_return(true)
+        allow(dummy_game).to receive(:king_move_available?).with(king).and_return(true)
+      end
+
+      it 'is not checkmate' do
+        expect(dummy_game.checkmate?).to be false
+      end
+    end
+
+    context 'when the king is in single check and a blocking move is available' do
+      let(:bish) { Bishop.new('b', 'black', [1, 3]) }
+      let(:positions) do
+        [
+          ['   ', '   ', '   ', '   ', king, '   ', '   ', '   '],
+          ['   ', '   ', '   ', bish, '   ', bpwn, '   ', '   '],
+          ['   ', '   ', '   ', '   ', '   ', '   ', '   ', '   '],
+          ['   ', '   ', '   ', '   ', '   ', '   ', '   ', '   '],
+          ['   ', '   ', '   ', '   ', '   ', '   ', '   ', '   '],
+          ['   ', '   ', '   ', '   ', '   ', '   ', '   ', '   '],
+          ['   ', '   ', '   ', '   ', '   ', '   ', '   ', '   '],
+          ['   ', '   ', '   ', '   ', queen, '   ', '   ', '   ']
+        ]
+      end
+
+      before do
+        dummy_game.board.instance_variable_set(:@cells, positions)
+        dummy_game.generate_piece_moves
+        allow(dummy_game).to receive(:locate_king).and_return(king)
+        allow(dummy_game).to receive(:single_check?).and_return(true)
+        allow(dummy_game).to receive(:king_move_available?).with(king).and_return(false)
+        allow(dummy_game).to receive(:blocking_move?).and_return(true)
+      end
+
+      it 'is not checkmate' do
+        expect(dummy_game.checkmate?).to be false
+      end
+    end
   end
 end
 
