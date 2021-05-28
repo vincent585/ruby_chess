@@ -144,6 +144,7 @@ end
 
 # g = Game.new
 # g.set_board
-# g.set_players
-# g.set_current_player
-# g.player_turns
+# g.board.show_board
+# # g.set_players
+# # g.set_current_player
+# # g.player_turns

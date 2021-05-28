@@ -244,7 +244,36 @@ describe CheckDetection do
   end
 
   describe '#checkmate?' do
-    # TODO
+    context 'when the king is in double check and no moves available' do
+      let(:king) { King.new("\u2654", 'black', [0, 4]) }
+      let(:bpwn) { Pawn.new('p', 'black', [1, 5]) }
+      let(:bpwn2) { Pawn.new('p', 'black', [1, 3]) }
+      let(:queen) { Queen.new("\u265B", 'white', [7, 4]) }
+      let(:rook) { Rook.new('r', 'white', [0, 0]) }
+      let(:positions) do
+        [
+          [rook, '   ', '   ', '   ', king, '   ', '   ', '   '],
+          ['   ', '   ', '   ', bpwn2, '   ', bpwn, '   ', '   '],
+          ['   ', '   ', '   ', '   ', '   ', '   ', '   ', '   '],
+          ['   ', '   ', '   ', '   ', '   ', '   ', '   ', '   '],
+          ['   ', '   ', '   ', '   ', '   ', '   ', '   ', '   '],
+          ['   ', '   ', '   ', '   ', '   ', '   ', '   ', '   '],
+          ['   ', '   ', '   ', '   ', '   ', '   ', '   ', '   '],
+          ['   ', '   ', '   ', '   ', queen, '   ', '   ', '   ']
+        ]
+      end
+
+      before do
+        dummy_game.board.instance_variable_set(:@cells, positions)
+        dummy_game.generate_piece_moves
+        allow(dummy_game).to receive(:locate_king).and_return(king)
+        allow(dummy_game).to receive(:double_check?).and_return(true)
+        allow(dummy_game).to receive(:king_move_available?).with(king).and_return(false)
+      end
+      it 'is checkmate' do
+        expect(dummy_game.checkmate?).to be true
+      end
+    end
   end
 end
 
