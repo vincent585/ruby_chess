@@ -120,7 +120,7 @@ describe CheckDetection do
     end
 
     context 'when the current player is white' do
-      before do 
+      before do
         dummy_game.find_active_pieces
         dummy_game.instance_variable_set(:@current_player, player_one)
       end
@@ -130,6 +130,67 @@ describe CheckDetection do
         expect(result.color).to eq('white')
       end
     end
+  end
+
+  describe '#double_check?' do
+    let(:king) { King.new("\u2654", 'black', [0, 4]) }
+    let(:queen) { Queen.new("\u265B", 'white', [7, 4]) }
+
+    context 'when there are two pieces that can attack the king' do
+      let(:rook) { Rook.new("\u265C", 'white', [0, 0]) }
+      let(:positions) do
+        [
+          [rook, '   ', '   ', '   ', king, '   ', '   ', '   '],
+          ['   ', '   ', '   ', '   ', '   ', '   ', '   ', '   '],
+          ['   ', '   ', '   ', '   ', '   ', '   ', '   ', '   '],
+          ['   ', '   ', '   ', '   ', '   ', '   ', '   ', '   '],
+          ['   ', '   ', '   ', '   ', '   ', '   ', '   ', '   '],
+          ['   ', '   ', '   ', '   ', '   ', '   ', '   ', '   '],
+          ['   ', '   ', '   ', '   ', '   ', '   ', '   ', '   '],
+          ['   ', '   ', '   ', '   ', queen, '   ', '   ', '   ']
+        ]
+      end
+
+      before do
+        allow(dummy_game).to receive(:find_attacking_pieces)
+        dummy_game.instance_variable_set(:@can_attack_king, [queen, rook])
+      end
+      it 'is double check' do
+        expect(dummy_game.double_check?(king.location)).to be true
+      end
+    end
+
+    context 'when only one piece can attack the king' do
+      let(:positions) do
+        [
+          ['   ', '   ', '   ', '   ', king, '   ', '   ', '   '],
+          ['   ', '   ', '   ', '   ', '   ', '   ', '   ', '   '],
+          ['   ', '   ', '   ', '   ', '   ', '   ', '   ', '   '],
+          ['   ', '   ', '   ', '   ', '   ', '   ', '   ', '   '],
+          ['   ', '   ', '   ', '   ', '   ', '   ', '   ', '   '],
+          ['   ', '   ', '   ', '   ', '   ', '   ', '   ', '   '],
+          ['   ', '   ', '   ', '   ', '   ', '   ', '   ', '   '],
+          ['   ', '   ', '   ', '   ', queen, '   ', '   ', '   ']
+        ]
+      end
+
+      before do
+        allow(dummy_game).to receive(:find_attacking_pieces)
+        dummy_game.instance_variable_set(:@can_attack_king, [queen])
+      end
+
+      it 'is not double check' do
+        expect(dummy_game.double_check?(king.location)).to be false
+      end
+    end
+  end
+
+  describe '#single_check?' do
+    # TODO
+  end
+
+  describe '#checkmate?' do
+    # TODO
   end
 end
 
