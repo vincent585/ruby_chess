@@ -152,6 +152,7 @@ describe CheckDetection do
       end
 
       before do
+        dummy_game.board.instance_variable_set(:@cells, positions)
         allow(dummy_game).to receive(:find_attacking_pieces)
         dummy_game.instance_variable_set(:@can_attack_king, [queen, rook])
       end
@@ -175,6 +176,7 @@ describe CheckDetection do
       end
 
       before do
+        dummy_game.board.instance_variable_set(:@cells, positions)
         allow(dummy_game).to receive(:find_attacking_pieces)
         dummy_game.instance_variable_set(:@can_attack_king, [queen])
       end
@@ -186,7 +188,33 @@ describe CheckDetection do
   end
 
   describe '#single_check?' do
-    # TODO
+    let(:king) { King.new("\u2654", 'black', [0, 4]) }
+    let(:queen) { Queen.new("\u265B", 'white', [7, 4]) }
+
+    context 'when one piece can attack the king' do
+      let(:positions) do
+        [
+          ['   ', '   ', '   ', '   ', king, '   ', '   ', '   '],
+          ['   ', '   ', '   ', '   ', '   ', '   ', '   ', '   '],
+          ['   ', '   ', '   ', '   ', '   ', '   ', '   ', '   '],
+          ['   ', '   ', '   ', '   ', '   ', '   ', '   ', '   '],
+          ['   ', '   ', '   ', '   ', '   ', '   ', '   ', '   '],
+          ['   ', '   ', '   ', '   ', '   ', '   ', '   ', '   '],
+          ['   ', '   ', '   ', '   ', '   ', '   ', '   ', '   '],
+          ['   ', '   ', '   ', '   ', queen, '   ', '   ', '   ']
+        ]
+      end
+
+      before do
+        dummy_game.board.instance_variable_set(:@cells, positions)
+        dummy_game.instance_variable_set(:@active_pieces, [king, queen])
+        dummy_game.active_pieces.each { |piece| piece.generate_moves(dummy_game.board) }
+      end
+
+      it 'is single check' do
+        expect(dummy_game.single_check?(king.location)).to be true
+      end
+    end
   end
 
   describe '#checkmate?' do
