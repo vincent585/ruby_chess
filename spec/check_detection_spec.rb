@@ -215,6 +215,32 @@ describe CheckDetection do
         expect(dummy_game.single_check?(king.location)).to be true
       end
     end
+
+    context 'when no pieces can attack the king' do
+      let(:queen) { Queen.new("\u265B", 'white', [7, 3]) }
+      let(:positions) do
+        [
+          ['   ', '   ', '   ', '   ', king, '   ', '   ', '   '],
+          ['   ', '   ', '   ', '   ', '   ', '   ', '   ', '   '],
+          ['   ', '   ', '   ', '   ', '   ', '   ', '   ', '   '],
+          ['   ', '   ', '   ', '   ', '   ', '   ', '   ', '   '],
+          ['   ', '   ', '   ', '   ', '   ', '   ', '   ', '   '],
+          ['   ', '   ', '   ', '   ', '   ', '   ', '   ', '   '],
+          ['   ', '   ', '   ', '   ', '   ', '   ', '   ', '   '],
+          ['   ', '   ', '   ', queen, '   ', '   ', '   ', '   ']
+        ]
+      end
+
+      before do
+        dummy_game.board.instance_variable_set(:@cells, positions)
+        dummy_game.instance_variable_set(:@active_pieces, [king, queen])
+        dummy_game.active_pieces.each { |piece| piece.generate_moves(dummy_game.board) }
+      end
+
+      it 'is not single check' do
+        expect(dummy_game.single_check?(king.location)).to be false
+      end
+    end
   end
 
   describe '#checkmate?' do
