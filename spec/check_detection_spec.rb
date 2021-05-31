@@ -423,7 +423,35 @@ describe CheckDetection do
   end
 
   describe '#path_to_king' do
-    # TODO
+    let(:queen) { instance_double(Queen, marker: 'q', color: 'white', location: [2, 4]) }
+    let(:king) { instance_double(King, marker: 'k', color: 'black', location: [0, 4]) }
+    let(:positions) do
+      [
+        ['   ', '   ', '   ', '   ', king, '   ', '   ', '   '],
+        ['   ', '   ', '   ', '   ', '   ', '   ', '   ', '   '],
+        ['   ', '   ', '   ', '   ', queen, '   ', '   ', '   '],
+        ['   ', '   ', '   ', '   ', '   ', '   ', '   ', '   '],
+        ['   ', '   ', '   ', '   ', '   ', '   ', '   ', '   '],
+        ['   ', '   ', '   ', '   ', '   ', '   ', '   ', '   '],
+        ['   ', '   ', '   ', '   ', '   ', '   ', '   ', '   '],
+        ['   ', '   ', '   ', '   ', '   ', '   ', '   ', '   ']
+      ]
+    end
+
+    before do
+      dummy_game.board.instance_variable_set(:@cells, :positions)
+    end
+    context 'when the attacking piece and king are in the same column' do
+      it 'returns the column path' do
+        expect(dummy_game).to receive(:col_path)
+        dummy_game.path_to_king(queen, king)
+      end
+
+      it 'returns the correct path' do
+        path = dummy_game.path_to_king(queen, king)
+        expect(path).to eq([[1, 4]])
+      end
+    end
   end
 end
 
