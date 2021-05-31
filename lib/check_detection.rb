@@ -117,6 +117,7 @@ module CheckDetection
     (1...len).each do |i|
       path << next_diagonal_square(start, i, row_direction, col_direction)
     end
+    path
   end
 
   def next_diagonal_square(start, idx, row_direction, col_direction)

@@ -452,6 +452,58 @@ describe CheckDetection do
         expect(path).to eq([[1, 4]])
       end
     end
+
+    context 'when the attacking piece and king are in the same row' do
+      let(:queen) { instance_double(Queen, marker: 'q', color: 'white', location: [0, 0]) }
+      let(:positions) do
+        [
+          [queen, '   ', '   ', '   ', king, '   ', '   ', '   '],
+          ['   ', '   ', '   ', '   ', '   ', '   ', '   ', '   '],
+          ['   ', '   ', '   ', '   ', '   ', '   ', '   ', '   '],
+          ['   ', '   ', '   ', '   ', '   ', '   ', '   ', '   '],
+          ['   ', '   ', '   ', '   ', '   ', '   ', '   ', '   '],
+          ['   ', '   ', '   ', '   ', '   ', '   ', '   ', '   '],
+          ['   ', '   ', '   ', '   ', '   ', '   ', '   ', '   '],
+          ['   ', '   ', '   ', '   ', '   ', '   ', '   ', '   ']
+        ]
+      end
+
+      it 'returns the row path' do
+        expect(dummy_game).to receive(:row_path)
+        dummy_game.path_to_king(queen, king)
+      end
+
+      it 'returns the correct path' do
+        path = dummy_game.path_to_king(queen, king)
+        expect(path).to eq([[0, 1], [0, 2], [0, 3]])
+      end
+    end
+
+    context 'when the attacking piece is attacking diagonally' do
+      let(:queen) { instance_double(Queen, marker: 'q', color: 'white', location: [2, 2]) }
+      let(:positions) do
+        [
+          ['   ', '   ', '   ', '   ', king, '   ', '   ', '   '],
+          ['   ', '   ', '   ', '   ', '   ', '   ', '   ', '   '],
+          ['   ', '   ', queen, '   ', '   ', '   ', '   ', '   '],
+          ['   ', '   ', '   ', '   ', '   ', '   ', '   ', '   '],
+          ['   ', '   ', '   ', '   ', '   ', '   ', '   ', '   '],
+          ['   ', '   ', '   ', '   ', '   ', '   ', '   ', '   '],
+          ['   ', '   ', '   ', '   ', '   ', '   ', '   ', '   '],
+          ['   ', '   ', '   ', '   ', '   ', '   ', '   ', '   ']
+        ]
+      end
+
+      it 'returns the diagonal path' do
+        expect(dummy_game).to receive(:diagonal_path)
+        dummy_game.path_to_king(queen, king)
+      end
+
+      it 'returns the correct path' do
+        path = dummy_game.path_to_king(queen, king)
+        expect(path).to eq([[1, 3]])
+      end
+    end
   end
 end
 
