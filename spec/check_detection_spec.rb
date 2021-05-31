@@ -368,6 +368,65 @@ describe CheckDetection do
     # TODO
   end
 
+  describe '#can_block?' do
+    let(:king) { King.new("\u2654", 'black', [0, 4]) }
+    let(:queen) { Queen.new("\u265B", 'white', [7, 4]) }
+
+    before do
+      dummy_game.board.instance_variable_set(:@cells, positions)
+      dummy_game.generate_piece_moves
+    end
+
+    context 'when a friendly piece can block the attacking piece' do
+      let(:bish) { Bishop.new('b', 'black', [1, 3]) }
+      let(:positions) do
+        [
+          ['   ', '   ', '   ', '   ', king, '   ', '   ', '   '],
+          ['   ', '   ', '   ', bish, '   ', '   ', '   ', '   '],
+          ['   ', '   ', '   ', '   ', '   ', '   ', '   ', '   '],
+          ['   ', '   ', '   ', '   ', '   ', '   ', '   ', '   '],
+          ['   ', '   ', '   ', '   ', '   ', '   ', '   ', '   '],
+          ['   ', '   ', '   ', '   ', '   ', '   ', '   ', '   '],
+          ['   ', '   ', '   ', '   ', '   ', '   ', '   ', '   '],
+          ['   ', '   ', '   ', '   ', queen, '   ', '   ', '   ']
+        ]
+      end
+
+      it 'receives path_to_king' do
+        expect(dummy_game).to receive(:path_to_king).with(queen, king).and_return([[1, 4], [2, 4], [3, 4], [5, 4], [6, 4]])
+        dummy_game.can_block?(king, bish, queen)
+      end
+
+      it 'can block' do
+        allow(dummy_game).to receive(:path_to_king).with(queen, king).and_return([[1, 4], [2, 4], [3, 4], [5, 4], [6, 4]])
+        expect(dummy_game.can_block?(king, bish, queen)).to be true
+      end
+    end
+
+    context 'when no friendly pieces can block the attacking piece' do
+      let(:bpwn) { Pawn.new('p', 'black', [1, 5]) }
+      let(:bpwn2) { Pawn.new('p', 'black', [1, 3]) }
+      let(:positions) do
+        [
+          ['   ', '   ', '   ', '   ', king, '   ', '   ', '   '],
+          ['   ', '   ', '   ', bpwn2, '   ', bpwn, '   ', '   '],
+          ['   ', '   ', '   ', '   ', '   ', '   ', '   ', '   '],
+          ['   ', '   ', '   ', '   ', '   ', '   ', '   ', '   '],
+          ['   ', '   ', '   ', '   ', '   ', '   ', '   ', '   '],
+          ['   ', '   ', '   ', '   ', '   ', '   ', '   ', '   '],
+          ['   ', '   ', '   ', '   ', '   ', '   ', '   ', '   '],
+          ['   ', '   ', '   ', '   ', queen, '   ', '   ', '   ']
+        ]
+      end
+
+      it 'cannot block' do
+        allow(dummy_game).to receive(:path_to_king).with(queen, king).and_return([[1, 4], [2, 4], [3, 4], [5, 4], [6, 4]])
+        expect(dummy_game.can_block?(king, bpwn, queen)).to be false
+        expect(dummy_game.can_block?(king, bpwn2, queen)).to be false
+      end
+    end
+  end
+
   describe '#can_capture?' do
     let(:queen) { Queen.new('q', 'white', [2, 4]) }
     let(:king) { King.new("\u2654", 'black', [0, 4]) }
@@ -416,10 +475,6 @@ describe CheckDetection do
         expect(dummy_game.can_capture?(king)).to be false
       end
     end
-  end
-
-  describe '#can_block?' do
-    # TODO
   end
 
   describe '#path_to_king' do
