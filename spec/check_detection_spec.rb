@@ -365,7 +365,90 @@ describe CheckDetection do
   end
 
   describe '#blocking_move?' do
-    # TODO
+    let(:king) { King.new("\u2654", 'black', [0, 4]) }
+    let(:queen) { Queen.new("\u265B", 'white', [7, 4]) }
+    let(:bpwn) { Pawn.new('p', 'black', [1, 5]) }
+
+    context 'when no pieces can block or capture the attacking piece' do
+      let(:bpwn2) { Pawn.new('p', 'black', [1, 3]) }
+      let(:positions) do
+        [
+          ['   ', '   ', '   ', '   ', king, '   ', '   ', '   '],
+          ['   ', '   ', '   ', bpwn2, '   ', bpwn, '   ', '   '],
+          ['   ', '   ', '   ', '   ', '   ', '   ', '   ', '   '],
+          ['   ', '   ', '   ', '   ', '   ', '   ', '   ', '   '],
+          ['   ', '   ', '   ', '   ', '   ', '   ', '   ', '   '],
+          ['   ', '   ', '   ', '   ', '   ', '   ', '   ', '   '],
+          ['   ', '   ', '   ', '   ', '   ', '   ', '   ', '   '],
+          ['   ', '   ', '   ', '   ', queen, '   ', '   ', '   ']
+        ]
+      end
+
+      before do
+        dummy_game.instance_variable_set(:@active_pieces, [king, queen, bpwn, bpwn2])
+        dummy_game.board.instance_variable_set(:@cells, positions)
+        allow(dummy_game).to receive(:can_block?).and_return(false)
+        allow(dummy_game).to receive(:can_capture?).and_return(false)
+      end
+
+      it 'does not have a blocking move' do
+        expect(dummy_game.blocking_move?(king)).to be false
+      end
+    end
+
+    context 'when a piece cannot capture the attacking piece, but can block it' do
+      let(:bish) { Bishop.new('b', 'black', [1, 3]) }
+      let(:positions) do
+        [
+          ['   ', '   ', '   ', '   ', king, '   ', '   ', '   '],
+          ['   ', '   ', '   ', bish, '   ', bpwn, '   ', '   '],
+          ['   ', '   ', '   ', '   ', '   ', '   ', '   ', '   '],
+          ['   ', '   ', '   ', '   ', '   ', '   ', '   ', '   '],
+          ['   ', '   ', '   ', '   ', '   ', '   ', '   ', '   '],
+          ['   ', '   ', '   ', '   ', '   ', '   ', '   ', '   '],
+          ['   ', '   ', '   ', '   ', '   ', '   ', '   ', '   '],
+          ['   ', '   ', '   ', '   ', queen, '   ', '   ', '   ']
+        ]
+      end
+
+      before do
+        dummy_game.instance_variable_set(:@active_pieces, [king, queen, bpwn, bish])
+        dummy_game.board.instance_variable_set(:@cells, positions)
+        allow(dummy_game).to receive(:can_capture?).and_return(false)
+        allow(dummy_game).to receive(:can_block?).and_return(true)
+      end
+
+      it 'has a blocking move' do
+        expect(dummy_game.blocking_move?(king)).to be true
+      end
+    end
+
+    context 'when a piece cannot block the attacking piece, but can capture it' do
+      let(:bish) { Bishop.new('b', 'black', [6, 3]) }
+      let(:positions) do
+        [
+          ['   ', '   ', '   ', '   ', king, '   ', '   ', '   '],
+          ['   ', '   ', '   ', '   ', '   ', bpwn, '   ', '   '],
+          ['   ', '   ', '   ', '   ', '   ', '   ', '   ', '   '],
+          ['   ', '   ', '   ', '   ', '   ', '   ', '   ', '   '],
+          ['   ', '   ', '   ', '   ', '   ', '   ', '   ', '   '],
+          ['   ', '   ', '   ', '   ', '   ', '   ', '   ', '   '],
+          ['   ', '   ', '   ', bish, '   ', '   ', '   ', '   '],
+          ['   ', '   ', '   ', '   ', queen, '   ', '   ', '   ']
+        ]
+      end
+
+      before do
+        dummy_game.instance_variable_set(:@active_pieces, [king, queen, bpwn, bish])
+        dummy_game.board.instance_variable_set(:@cells, positions)
+        allow(dummy_game).to receive(:can_capture?).and_return(true)
+        allow(dummy_game).to receive(:can_block?).and_return(false)
+      end
+
+      it 'has a blocking move' do
+        expect(dummy_game.blocking_move?(king)).to be true
+      end
+    end
   end
 
   describe '#can_block?' do
