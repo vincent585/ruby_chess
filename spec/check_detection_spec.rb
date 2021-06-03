@@ -361,7 +361,61 @@ describe CheckDetection do
   end
 
   describe '#king_move_available?' do
-    # TODO
+    let(:king) { King.new("\u2654", 'black', [0, 4]) }
+    context 'when the king is in double check and there is no move available' do
+      let(:queen) { Queen.new("\u265B", 'white', [7, 4]) }
+      let(:rook) { Rook.new('r', 'white', [0, 0]) }
+      let(:bpwn) { Pawn.new('p', 'black', [1, 5]) }
+      let(:bpwn2) { Pawn.new('p', 'black', [1, 3]) }
+      let(:positions) do
+        [
+          [rook, '   ', '   ', '   ', king, '   ', '   ', '   '],
+          ['   ', '   ', '   ', bpwn2, '   ', bpwn, '   ', '   '],
+          ['   ', '   ', '   ', '   ', '   ', '   ', '   ', '   '],
+          ['   ', '   ', '   ', '   ', '   ', '   ', '   ', '   '],
+          ['   ', '   ', '   ', '   ', '   ', '   ', '   ', '   '],
+          ['   ', '   ', '   ', '   ', '   ', '   ', '   ', '   '],
+          ['   ', '   ', '   ', '   ', '   ', '   ', '   ', '   '],
+          ['   ', '   ', '   ', '   ', queen, '   ', '   ', '   ']
+        ]
+      end
+
+      before do
+        dummy_game.board.instance_variable_set(:@cells, positions)
+        dummy_game.instance_variable_set(:@can_attack_king, [queen, rook])
+      end
+
+      it 'does not have a move available' do
+        expect(dummy_game.king_move_available?(king)).to be false
+      end
+    end
+
+    context 'when the king is in double check and there is a move available' do
+      let(:queen) { Queen.new("\u265B", 'white', [7, 4]) }
+      let(:rook) { Rook.new('r', 'white', [0, 0]) }
+      let(:bpwn) { Pawn.new('p', 'black', [1, 5]) }
+      let(:positions) do
+        [
+          [rook, '   ', '   ', '   ', king, '   ', '   ', '   '],
+          ['   ', '   ', '   ', '   ', '   ', bpwn, '   ', '   '],
+          ['   ', '   ', '   ', '   ', '   ', '   ', '   ', '   '],
+          ['   ', '   ', '   ', '   ', '   ', '   ', '   ', '   '],
+          ['   ', '   ', '   ', '   ', '   ', '   ', '   ', '   '],
+          ['   ', '   ', '   ', '   ', '   ', '   ', '   ', '   '],
+          ['   ', '   ', '   ', '   ', '   ', '   ', '   ', '   '],
+          ['   ', '   ', '   ', '   ', queen, '   ', '   ', '   ']
+        ]
+      end
+
+      before do
+        dummy_game.board.instance_variable_set(:@cells, positions)
+        dummy_game.instance_variable_set(:@can_attack_king, [queen, rook])
+      end
+
+      it 'has a move available' do
+        expect(dummy_game.king_move_available?(king)).to be true
+      end
+    end
   end
 
   describe '#blocking_move?' do
