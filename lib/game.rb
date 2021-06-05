@@ -143,7 +143,24 @@ class Game
 end
 
 # g = Game.new
-# g.set_board
+# king = King.new("\u2654", 'black', [0, 4])
+# queen = Queen.new("\u265B", 'white', [7, 4])
+# rook = Rook.new('r', 'white', [0, 0])
+# bpwn = Pawn.new('p', 'black', [1, 5])
+# bpwn2 = Pawn.new('p', 'black', [1, 3])
+# wking = King.new('k', 'white', [7, 0])
+# positions =
+#   [
+#     [rook, '   ', '   ', '   ', king, '   ', '   ', '   '],
+#     ['   ', '   ', '   ', bpwn2, '   ', bpwn, '   ', '   '],
+#     ['   ', '   ', '   ', '   ', '   ', '   ', '   ', '   '],
+#     ['   ', '   ', '   ', '   ', '   ', '   ', '   ', '   '],
+#     ['   ', '   ', '   ', '   ', '   ', '   ', '   ', '   '],
+#     ['   ', '   ', '   ', '   ', '   ', '   ', '   ', '   '],
+#     ['   ', '   ', '   ', '   ', '   ', '   ', '   ', '   '],
+#     [wking, '   ', '   ', '   ', queen, '   ', '   ', '   ']
+#   ]
+# g.board.instance_variable_set(:@cells, positions)
 # g.set_players
 # g.set_current_player
 # g.player_turns

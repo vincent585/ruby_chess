@@ -60,7 +60,6 @@ module CheckDetection
     king.generate_moves(board)
     actual_king_moves(king, board)
     return false if king.moves.all? { |move| double_check?(move) || single_check?(move) }
-    # return false if king.moves.all? { |move| can_attack_king.any? { |piece| piece.moves.include?(move) } }
 
     true
   end
@@ -68,12 +67,20 @@ module CheckDetection
   def actual_king_moves(king, board, moves = [])
     king.moves.each do |move|
       copy = Marshal.load(Marshal.dump(board))
-      copy.cells[move.first][move.last] = king
-      copy.cells[king.location.first][king.location.last] = '   '
+      pseudo_king_move(copy, move, king)
       can_attack_king.each { |piece| piece.generate_moves(copy) }
-      moves << move unless can_attack_king.any? { |piece| piece.moves.include?(move) }
+      king_under_attack?(moves, move)
     end
     king.moves = moves
+  end
+
+  def pseudo_king_move(board, move, king)
+    board.cells[move.first][move.last] = king
+    board.cells[king.location.first][king.location.last] = '   '
+  end
+
+  def king_under_attack?(possible_moves, move)
+    possible_moves << move unless can_attack_king.any? { |piece| piece.moves.include?(move) }
   end
 
   def blocking_move?(king)
