@@ -3,12 +3,14 @@
 require_relative 'board'
 require_relative 'player'
 require_relative 'check_detection'
+require_relative 'castling'
 Dir['./lib/pieces/*.rb'].sort.each(&method(:require))
 
 # Game object class
 class Game
   include Displayable
   include CheckDetection
+  include Castling
   attr_reader :board, :players, :current_player
   attr_accessor :active_pieces, :can_attack_king
 
