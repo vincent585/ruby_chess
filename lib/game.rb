@@ -43,6 +43,8 @@ class Game
   def player_turn
     player_turn_prompt
     loop do
+      # return castling logic if validated_start == O-O or O-O-O
+
       updated_board = generate_temp_board
       generate_piece_moves(updated_board) unless updated_board.nil?
       king = locate_king
@@ -105,6 +107,10 @@ class Game
     true
   end
 
+  def castling_notation?(coordinate)
+    ['O-O', 'O-O-O'].include?(coordinate)
+  end
+
   def valid_input?(coordinate)
     coordinate[0].between?('a', 'h') && coordinate[1].to_i.between?(1, 8)
   end
@@ -112,6 +118,8 @@ class Game
   def validated_start
     loop do
       user_input = select_start
+      return user_input if castling_notation?(user_input)
+
       verified_input = valid_input?(user_input)
       return user_input if verified_input
 
