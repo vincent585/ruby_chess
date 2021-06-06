@@ -43,9 +43,11 @@ class Game
   def player_turn
     player_turn_prompt
     loop do
+      start = validated_start
       # return castling logic if validated_start == O-O or O-O-O
+      target = validated_target
 
-      updated_board = generate_temp_board
+      updated_board = generate_temp_board(start, target)
       generate_piece_moves(updated_board) unless updated_board.nil?
       king = locate_king
       return @board = updated_board if valid_move?(updated_board, king)
@@ -96,9 +98,9 @@ class Game
     %w[white black].include?(color)
   end
 
-  def generate_temp_board
+  def generate_temp_board(start, target)
     copy = Marshal.load(Marshal.dump(board))
-    copy.update_board(validated_start, validated_target, @current_player)
+    copy.update_board(start, target, @current_player)
   end
 
   def player_not_in_check?(king)
