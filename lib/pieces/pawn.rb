@@ -9,7 +9,6 @@ class Pawn < Piece
   def initialize(marker, color, location)
     # use "\u2659" for black, "\u265F" for white
     super(marker, color, location)
-    @moved = false
   end
 
   def valid_move?(start, target, board)
