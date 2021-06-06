@@ -44,9 +44,8 @@ class Game
     player_turn_prompt
     loop do
       start = validated_start
-      # return castling logic if validated_start == O-O or O-O-O
+      # return castling logic if castling_notation?(start)
       target = validated_target
-
       updated_board = generate_temp_board(start, target)
       generate_piece_moves(updated_board) unless updated_board.nil?
       king = locate_king
