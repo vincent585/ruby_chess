@@ -38,7 +38,7 @@ class Board
     coordinates = convert_coordinates(start, target)
     return nil unless valid_coordinates?(coordinates, current_player) && legal_piece_move?(coordinates)
 
-    update_pawn_status(coordinates)
+    update_moved_status(coordinates)
     move_piece(coordinates)
     self
   end
@@ -81,8 +81,8 @@ class Board
     @cells[coordinates[2]][coordinates[3]].location = [coordinates[2], coordinates[3]]
   end
 
-  def update_pawn_status(coordinates)
-    @cells[coordinates[0]][coordinates[1]].moved = true if @cells[coordinates[0]][coordinates[1]].is_a?(Pawn)
+  def update_moved_status(coordinates)
+    @cells[coordinates[0]][coordinates[1]].moved = true
   end
 
   def convert_coordinates(start, target, coordinates = [start, target])
