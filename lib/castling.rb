@@ -43,10 +43,20 @@ module Castling
   end
 
   def queenside_available?(king)
-    2.downto(1) do |col|
+    return false if queenside_blocked?(king)
+
+    (1..2).each do |col|
       tile_to_test = [king.location.first, king.location.last - col]
-      return false if castling_tile_compromised?(tile_to_test) || tile_to_test != '   '
+      return false if castling_tile_compromised?(tile_to_test)
     end
     true
+  end
+
+  def queenside_blocked?(king)
+    (1..3).each do |col|
+      tile_to_test = [king.location.first, king.location.last - col]
+      return true unless tile_to_test == '   '
+    end
+    false
   end
 end
