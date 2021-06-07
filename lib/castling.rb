@@ -66,7 +66,7 @@ module Castling
   end
 
   def castling_pieces_unmoved?(king, rook)
-    true unless rook.moved || king.moved
+    true unless rook.moved || king.moved || king == '   ' || rook == '   '
   end
 
   def safe_passage?(king, castling_side)
