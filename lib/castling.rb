@@ -2,6 +2,22 @@
 
 # module handling the logic of the Castling move
 module Castling
+  def perform_castling(castling_side)
+    if white_kingside?(castling_side)
+      move_pieces(castling_pieces[:white_kingside])
+    elsif white_queenside?(castling_side)
+      move_pieces(castling_pieces[:white_queenside])
+    elsif black_kingside?(castling_side)
+      move_pieces(castling_pieces[:black_kingside])
+    else
+      move_pieces(castling_pieces[:black_queenside])
+    end
+  end
+
+  def move_pieces(pieces_to_castle)
+    # TODO
+  end
+
   def can_castle?(king, rook, castling_side)
     player_not_in_check?(king) &&
       castling_pieces_moved?(king, rook) &&
@@ -21,8 +37,6 @@ module Castling
   def castling_tile_compromised?(location)
     return true if enemy_pieces.any? { |piece| piece.moves.include?(location) }
   end
-
-  private
 
   def enemy_pieces
     enemy_pieces = []
@@ -58,5 +72,28 @@ module Castling
       return true unless tile_to_test == '   '
     end
     false
+  end
+
+  private
+
+  def white_kingside?(castling_side)
+    castling_side == 'O-O' && current_player.color == 'white'
+  end
+
+  def white_queenside?(castling_side)
+    castling_side == 'O-O-O' && current_player.color == 'white'
+  end
+
+  def black_kingside?(castling_side)
+    castling_side == 'O-O' && current_player.color == 'black'
+  end
+
+  def castling_pieces
+    {
+      white_kingside: [board.cells[7][4], board.cells[7][7]],
+      white_queenside: [board.cells[7][4], board.cells[7][0]],
+      black_kingside: [board.cells[0][4], board.cells[0][7]],
+      black_queenside: [board.cells[0][4], board.cells[0][0]]
+    }
   end
 end

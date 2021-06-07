@@ -9,7 +9,7 @@ Dir['./lib/pieces/*.rb'].sort.each(&method(:require))
 class Board
   include BoardValidation
   include Displayable
-  attr_reader :cells
+  attr_accessor :cells
 
   LETTER_INDECES = %w[a b c d e f g h].freeze
 
