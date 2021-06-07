@@ -44,13 +44,26 @@ class Game
     player_turn_prompt
     loop do
       start = validated_start
-      # return castling logic if castling_notation?(start)
+      if castling_notation?(start) && can_castle?(start)
+        return @board = perform_castling(start)
+      elsif castling_notation?(start)
+        next
+      end
+
       target = validated_target
       updated_board = generate_temp_board(start, target)
       generate_piece_moves(updated_board) unless updated_board.nil?
       king = locate_king
       return @board = updated_board if valid_move?(updated_board, king)
     end
+  end
+
+  def player_castling(start)
+    move = perform_castling(start)
+    p move
+    return @board = move if move
+
+    puts 'Cannot castle'
   end
 
   def valid_move?(updated_board, king)
@@ -109,7 +122,7 @@ class Game
   end
 
   def castling_notation?(coordinate)
-    ['O-O', 'O-O-O'].include?(coordinate)
+    ['o-o', 'o-o-o'].include?(coordinate)
   end
 
   def valid_input?(coordinate)
@@ -153,25 +166,26 @@ class Game
   end
 end
 
-# g = Game.new
-# king = King.new("\u2654", 'black', [0, 4])
-# queen = Queen.new("\u265B", 'white', [7, 4])
-# rook = Rook.new('r', 'white', [0, 0])
-# bpwn = Pawn.new('p', 'black', [1, 5])
-# bpwn2 = Pawn.new('p', 'black', [1, 3])
-# wking = King.new('k', 'white', [7, 0])
-# positions =
-#   [
-#     [rook, '   ', '   ', '   ', king, '   ', '   ', '   '],
-#     ['   ', '   ', '   ', bpwn2, '   ', bpwn, '   ', '   '],
-#     ['   ', '   ', '   ', '   ', '   ', '   ', '   ', '   '],
-#     ['   ', '   ', '   ', '   ', '   ', '   ', '   ', '   '],
-#     ['   ', '   ', '   ', '   ', '   ', '   ', '   ', '   '],
-#     ['   ', '   ', '   ', '   ', '   ', '   ', '   ', '   '],
-#     ['   ', '   ', '   ', '   ', '   ', '   ', '   ', '   '],
-#     [wking, '   ', '   ', '   ', queen, '   ', '   ', '   ']
-#   ]
-# g.board.instance_variable_set(:@cells, positions)
-# g.set_players
-# g.set_current_player
-# g.player_turns
+g = Game.new
+king = King.new("\u2654", 'black', [0, 4])
+queen = Queen.new("\u265B", 'white', [7, 4])
+rook = Rook.new('r', 'black', [0, 0])
+bpwn = Pawn.new('p', 'black', [1, 5])
+bpwn2 = Pawn.new('p', 'black', [1, 3])
+wking = King.new('k', 'white', [7, 0])
+positions =
+  [
+    [rook, '   ', '   ', '   ', king, '   ', '   ', '   '],
+    ['   ', '   ', '   ', '   ', bpwn2, bpwn, '   ', '   '],
+    ['   ', '   ', '   ', '   ', '   ', '   ', '   ', '   '],
+    ['   ', '   ', '   ', '   ', '   ', '   ', '   ', '   '],
+    ['   ', '   ', '   ', '   ', '   ', '   ', '   ', '   '],
+    ['   ', '   ', '   ', '   ', '   ', '   ', '   ', '   '],
+    ['   ', '   ', '   ', '   ', '   ', '   ', '   ', '   '],
+    [wking, '   ', '   ', '   ', '   ', '   ', '   ', '   ']
+  ]
+g.board.instance_variable_set(:@cells, positions)
+g.set_players
+g.set_current_player
+p g.castling_pieces_unmoved?(king, rook)
+g.player_turns
