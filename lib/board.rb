@@ -40,6 +40,7 @@ class Board
 
     update_moved_status(coordinates)
     move_piece(coordinates)
+    @cells[coordinates[2]][coordinates[3]] = upgrade_piece(coordinates) if pawn_upgrade_available?(coordinates)
     self
   end
 
@@ -70,6 +71,67 @@ class Board
   end
 
   private
+
+  def upgrade_piece(coordinates)
+    piece_to_upgrade = @cells[coordinates[2]][coordinates[3]]
+    color = piece_to_upgrade.color
+    selection = select_upgrade_piece
+    if color == 'white'
+      case selection
+      when 'r'
+        Rook.new("\u265C", 'white', [0, piece_to_upgrade.location.last])
+      when 'q'
+        Queen.new("\u265B", 'white', [0, piece_to_upgrade.location.last])
+      when 'b'
+        Bishop.new("\u265D", 'white', [0, piece_to_upgrade.location.last])
+      when 'k'
+        Knight.new("\u265E", 'white', [0, piece_to_upgrade.location.last])
+      end
+    elsif color == 'black'
+      case selection
+      when 'r'
+        Rook.new("\u2656", 'black', [7, piece_to_upgrade.location.last])
+      when 'q'
+        Queen.new("\u2655", 'black', [7, piece_to_upgrade.location.last])
+      when 'b'
+        Bishop.new("\u2657", 'black', [7, piece_to_upgrade.location.last])
+      when 'k'
+        Knight.new("\u2658", 'black', [7, piece_to_upgrade.location.last])
+      end
+    end
+  end
+
+  def select_upgrade_piece
+    puts 'Pawn upgrade available. Please enter "r" for rook, "q" for queen, "b" for bishop" or "k" for knight.'
+    loop do
+      input = gets.chomp.downcase
+      return input if valid_upgrade_piece?(input)
+
+      puts "#{input} is not a valid selection."
+    end
+  end
+
+  def valid_upgrade_piece?(input)
+    return false unless input.length == 1
+
+    %w[r q b k].include?(input)
+  end
+
+  def pawn_upgrade_available?(coordinates)
+    piece = @cells[coordinates[2]][coordinates[3]]
+    return true if white_pawn_at_other_side?(piece)
+    return true if black_pawn_at_other_side?(piece)
+
+    false
+  end
+
+  def white_pawn_at_other_side?(piece)
+    piece.is_a?(Pawn) && piece.color == 'white' && piece.location.first.zero?
+  end
+
+  def black_pawn_at_other_side?(piece)
+    piece.is_a?(Pawn) && piece.color == 'black' && piece.location.first == 7
+  end
 
   def move_piece(coordinates)
     @cells[coordinates[2]][coordinates[3]] = @cells[coordinates[0]][coordinates[1]]

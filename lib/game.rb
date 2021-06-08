@@ -161,27 +161,112 @@ class Game
   end
 end
 
+# CASTLING SETUP
+
+# g = Game.new
+# bking = King.new("\u2654", 'black', [0, 4])
+# bpwn = Pawn.new("\u2659", 'black', [1, 5])
+# bpwn2 = Pawn.new("\u2659", 'black', [1, 3])
+# queen = Queen.new("\u265B", 'white', [7, 4])
+# rook = Rook.new("\u265C", 'white', [1, 0])
+# wking = King.new("\u265A", 'white', [7, 0])
+# bpwn3 = Pawn.new("\u2659", 'black', [3, 4])
+# brook = Rook.new("\u2656", 'black', [0, 0])
+# brook2 = Rook.new("\u2656", 'black', [0, 7])
+# positions =
+#   [
+#     [brook, '   ', '   ', '   ', bking, '   ', '   ', brook2],
+#     [rook, '   ', '   ', bpwn2, '   ', bpwn, '   ', '   '],
+#     ['   ', '   ', '   ', '   ', '   ', '   ', '   ', '   '],
+#     ['   ', '   ', '   ', '   ', bpwn3, '   ', '   ', '   '],
+#     ['   ', '   ', '   ', '   ', '   ', '   ', '   ', '   '],
+#     ['   ', '   ', '   ', '   ', '   ', '   ', '   ', '   '],
+#     ['   ', '   ', '   ', '   ', '   ', '   ', '   ', '   '],
+#     [wking, '   ', '   ', '   ', queen, '   ', '   ', '   ']
+#   ]
+# g.board.instance_variable_set(:@cells, positions)
+
+# ================================================================
+
+# CASTLING SETUP 2
+
+# g = Game.new
+# bking = King.new("\u2654", 'black', [0, 4])
+# bpwn = Pawn.new("\u2659", 'black', [1, 5])
+# bpwn2 = Pawn.new("\u2659", 'black', [1, 3])
+# queen = Queen.new("\u265B", 'white', [7, 4])
+# rook = Rook.new("\u265C", 'white', [1, 0])
+# rook2 = Rook.new("\u265C", 'white', [7, 2])
+# wking = King.new("\u265A", 'white', [7, 0])
+# bpwn3 = Pawn.new("\u2659", 'black', [3, 4])
+# brook = Rook.new("\u2656", 'black', [0, 0])
+# brook2 = Rook.new("\u2656", 'black', [0, 7])
+# positions =
+#   [
+#     [brook, '   ', '   ', '   ', bking, '   ', '   ', brook2],
+#     [rook, '   ', '   ', bpwn2, '   ', bpwn, '   ', '   '],
+#     ['   ', '   ', '   ', '   ', '   ', '   ', '   ', '   '],
+#     ['   ', '   ', '   ', '   ', bpwn3, '   ', '   ', '   '],
+#     ['   ', '   ', '   ', '   ', '   ', '   ', '   ', '   '],
+#     ['   ', '   ', '   ', '   ', '   ', '   ', '   ', '   '],
+#     ['   ', '   ', '   ', '   ', '   ', '   ', '   ', '   '],
+#     [wking, '   ', rook2, '   ', queen, '   ', '   ', '   ']
+#   ]
+# g.board.instance_variable_set(:@cells, positions)
+
+# =================================================================
+
 # CHECKMATE SETUP
-g = Game.new
-bking = King.new("\u2654", 'black', [0, 4])
-bpwn = Pawn.new("\u2659", 'black', [1, 5])
-bpwn2 = Pawn.new("\u2659", 'black', [1, 3])
-queen = Queen.new("\u265B", 'white', [7, 4])
-rook = Rook.new("\u265C", 'white', [1, 0])
-wking = King.new("\u265A", 'white', [7, 0])
-bpwn3 = Pawn.new("\u2659", 'black', [3, 4])
-positions =
-  [
-    ['   ', '   ', '   ', '   ', bking, '   ', '   ', '   '],
-    [rook, '   ', '   ', bpwn2, '   ', bpwn, '   ', '   '],
-    ['   ', '   ', '   ', '   ', '   ', '   ', '   ', '   '],
-    ['   ', '   ', '   ', '   ', bpwn3, '   ', '   ', '   '],
-    ['   ', '   ', '   ', '   ', '   ', '   ', '   ', '   '],
-    ['   ', '   ', '   ', '   ', '   ', '   ', '   ', '   '],
-    ['   ', '   ', '   ', '   ', '   ', '   ', '   ', '   '],
-    [wking, '   ', '   ', '   ', queen, '   ', '   ', '   ']
-  ]
-g.board.instance_variable_set(:@cells, positions)
+
+# g = Game.new
+# bking = King.new("\u2654", 'black', [0, 4])
+# bpwn = Pawn.new("\u2659", 'black', [1, 5])
+# bpwn2 = Pawn.new("\u2659", 'black', [1, 3])
+# queen = Queen.new("\u265B", 'white', [7, 4])
+# rook = Rook.new("\u265C", 'white', [1, 0])
+# wking = King.new("\u265A", 'white', [7, 0])
+# bpwn3 = Pawn.new("\u2659", 'black', [3, 4])
+# positions =
+#   [
+#     ['   ', '   ', '   ', '   ', bking, '   ', '   ', '   '],
+#     [rook, '   ', '   ', bpwn2, '   ', bpwn, '   ', '   '],
+#     ['   ', '   ', '   ', '   ', '   ', '   ', '   ', '   '],
+#     ['   ', '   ', '   ', '   ', bpwn3, '   ', '   ', '   '],
+#     ['   ', '   ', '   ', '   ', '   ', '   ', '   ', '   '],
+#     ['   ', '   ', '   ', '   ', '   ', '   ', '   ', '   '],
+#     ['   ', '   ', '   ', '   ', '   ', '   ', '   ', '   '],
+#     [wking, '   ', '   ', '   ', queen, '   ', '   ', '   ']
+#   ]
+# g.board.instance_variable_set(:@cells, positions)
+
+# ====================================================================
+
+# PAWN UPGRADE SETUP
+
+# g = Game.new
+# bking = King.new("\u2654", 'black', [0, 4])
+# bpwn = Pawn.new("\u2659", 'black', [1, 5])
+# bpwn2 = Pawn.new("\u2659", 'black', [6, 3])
+# queen = Queen.new("\u265B", 'white', [7, 4])
+# rook = Rook.new("\u265C", 'white', [1, 0])
+# wking = King.new("\u265A", 'white', [7, 0])
+# bpwn3 = Pawn.new("\u2659", 'black', [3, 4])
+# positions =
+#   [
+#     ['   ', '   ', '   ', '   ', bking, '   ', '   ', '   '],
+#     [rook, '   ', '   ', '   ', '   ', bpwn, '   ', '   '],
+#     ['   ', '   ', '   ', '   ', '   ', '   ', '   ', '   '],
+#     ['   ', '   ', '   ', '   ', bpwn3, '   ', '   ', '   '],
+#     ['   ', '   ', '   ', '   ', '   ', '   ', '   ', '   '],
+#     ['   ', '   ', '   ', '   ', '   ', '   ', '   ', '   '],
+#     ['   ', '   ', '   ', bpwn2, '   ', '   ', '   ', '   '],
+#     [wking, '   ', '   ', '   ', queen, '   ', '   ', '   ']
+#   ]
+# g.board.instance_variable_set(:@cells, positions)
+
+# # ======================================================================
+# g = Game.new
+# g.set_board
 g.set_players
 g.set_current_player
 g.player_turns
