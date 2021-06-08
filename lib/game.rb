@@ -119,6 +119,8 @@ class Game
   end
 
   def valid_input?(coordinate)
+    return false unless coordinate.length == 2
+
     coordinate[0].between?('a', 'h') && coordinate[1].to_i.between?(1, 8)
   end
 
@@ -159,26 +161,27 @@ class Game
   end
 end
 
+# CHECKMATE SETUP
 g = Game.new
-# king = King.new("\u2654", 'black', [0, 4])
-# queen = Queen.new("\u265B", 'white', [7, 4])
-# rook = Rook.new('r', 'black', [0, 0])
-# bpwn = Pawn.new('p', 'black', [1, 5])
-# bpwn2 = Pawn.new('p', 'black', [1, 3])
-# wking = King.new('k', 'white', [7, 0])
-# positions =
-#   [
-#     [rook, '   ', '   ', '   ', king, '   ', '   ', '   '],
-#     ['   ', '   ', '   ', '   ', bpwn2, bpwn, '   ', '   '],
-#     ['   ', '   ', '   ', '   ', '   ', '   ', '   ', '   '],
-#     ['   ', '   ', '   ', '   ', '   ', '   ', '   ', '   '],
-#     ['   ', '   ', '   ', '   ', '   ', '   ', '   ', '   '],
-#     ['   ', '   ', '   ', '   ', '   ', '   ', '   ', '   '],
-#     ['   ', '   ', '   ', '   ', '   ', '   ', '   ', '   '],
-#     [wking, '   ', '   ', '   ', '   ', '   ', '   ', '   ']
-#   ]
-# g.board.instance_variable_set(:@cells, positions)
-g.set_board
+bking = King.new("\u2654", 'black', [0, 4])
+bpwn = Pawn.new("\u2659", 'black', [1, 5])
+bpwn2 = Pawn.new("\u2659", 'black', [1, 3])
+queen = Queen.new("\u265B", 'white', [7, 4])
+rook = Rook.new("\u265C", 'white', [1, 0])
+wking = King.new("\u265A", 'white', [7, 0])
+bpwn3 = Pawn.new("\u2659", 'black', [3, 4])
+positions =
+  [
+    ['   ', '   ', '   ', '   ', bking, '   ', '   ', '   '],
+    [rook, '   ', '   ', bpwn2, '   ', bpwn, '   ', '   '],
+    ['   ', '   ', '   ', '   ', '   ', '   ', '   ', '   '],
+    ['   ', '   ', '   ', '   ', bpwn3, '   ', '   ', '   '],
+    ['   ', '   ', '   ', '   ', '   ', '   ', '   ', '   '],
+    ['   ', '   ', '   ', '   ', '   ', '   ', '   ', '   '],
+    ['   ', '   ', '   ', '   ', '   ', '   ', '   ', '   '],
+    [wking, '   ', '   ', '   ', queen, '   ', '   ', '   ']
+  ]
+g.board.instance_variable_set(:@cells, positions)
 g.set_players
 g.set_current_player
 g.player_turns

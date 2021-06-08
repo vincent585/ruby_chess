@@ -39,6 +39,7 @@ module CheckDetection
 
       can_attack_king << piece if piece.moves.include?(king)
     end
+    @can_attack_king
   end
 
   def find_active_pieces(board = @board)
@@ -48,6 +49,7 @@ module CheckDetection
         active_pieces << cell unless cell == '   '
       end
     end
+    @active_pieces
   end
 
   def locate_king
@@ -59,7 +61,7 @@ module CheckDetection
   def king_move_available?(king)
     king.generate_moves(board)
     actual_king_moves(king, board)
-    return false if king.moves.all? { |move| double_check?(move) || single_check?(move) }
+    return false if king.moves.all? { |move| can_attack_king.any? { |piece| piece.moves.include?(move) } }
 
     true
   end
@@ -69,7 +71,7 @@ module CheckDetection
       copy = Marshal.load(Marshal.dump(board))
       pseudo_king_move(copy, move, king)
       can_attack_king.each { |piece| piece.generate_moves(copy) }
-      king_under_attack?(moves, move)
+      moves << move unless king_under_attack?(move)
     end
     king.moves = moves
   end
@@ -79,8 +81,9 @@ module CheckDetection
     board.cells[king.location.first][king.location.last] = '   '
   end
 
-  def king_under_attack?(possible_moves, move)
-    possible_moves << move unless can_attack_king.any? { |piece| piece.moves.include?(move) }
+  def king_under_attack?(move)
+    enemy_pieces = find_enemy_pieces
+    enemy_pieces.any? { |piece| piece.moves.include?(move) }
   end
 
   def blocking_move?(king)
