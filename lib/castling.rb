@@ -48,6 +48,8 @@ module Castling
     pieces = select_castling_pieces(castling_side)
     king = pieces.first
     rook = pieces.last
+    return false if pieces.include?('   ')
+
     player_not_in_check?(king) &&
       castling_pieces_unmoved?(king, rook) &&
       safe_passage?(king, castling_side)
