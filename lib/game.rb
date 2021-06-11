@@ -265,8 +265,9 @@ end
 # g.board.instance_variable_set(:@cells, positions)
 
 # # ======================================================================
+
 # g = Game.new
 # g.set_board
-g.set_players
-g.set_current_player
-g.player_turns
+# g.set_players
+# g.set_current_player
+# g.player_turns
