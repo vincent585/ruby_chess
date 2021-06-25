@@ -1,9 +1,11 @@
 # frozen_string_literal: true
 
 require_relative 'piece'
+require_relative 'en_passant'
 
 # Pawn piece object
 class Pawn < Piece
+  include EnPassant
   attr_accessor :moved, :vulnerable
 
   def initialize(marker, color, location)
