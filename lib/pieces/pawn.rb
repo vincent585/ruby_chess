@@ -4,11 +4,12 @@ require_relative 'piece'
 
 # Pawn piece object
 class Pawn < Piece
-  attr_accessor :moved
+  attr_accessor :moved, :vulnerable
 
   def initialize(marker, color, location)
     # use "\u2659" for black, "\u265F" for white
     super(marker, color, location)
+    @vulnerable = false
   end
 
   def valid_move?(start, target, board)
