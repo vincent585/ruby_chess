@@ -37,7 +37,8 @@ class Board
   def update_board(start, target, current_player)
     coordinates = convert_coordinates(start, target)
     return nil unless valid_coordinates?(coordinates, current_player) && legal_piece_move?(coordinates)
-
+    return nil if en_passant?(cells[coordinates[0]][coordinates[1]], coordinates) && !cells[coordinates[0]][coordinates[1]].legal_en_passant?(coordinates, self)
+    
     update_moved_status(coordinates)
     move_piece(coordinates)
     @cells[coordinates[2]][coordinates[3]] = upgrade_piece(coordinates) if pawn_upgrade_available?(coordinates)
@@ -137,14 +138,20 @@ class Board
   def move_piece(coordinates)
     start = @cells[coordinates[0]][coordinates[1]]
     start.vulnerable = true if start.is_a?(Pawn) && start.coordinate_difference(start.location, coordinates[2..3]) == [2, 0]
-    if start.is_a?(Pawn) && start.legal_en_passant?(coordinates[2..3], self)
+    if en_passant?(start, coordinates) && start.legal_en_passant?(coordinates, self)
       perform_en_passant(start, coordinates)
+      update_piece_location(coordinates)
     else
-      p 'this is not en passant'
       @cells[coordinates[2]][coordinates[3]] = @cells[coordinates[0]][coordinates[1]]
       @cells[coordinates[0]][coordinates[1]] = '   '
+      update_piece_location(coordinates)
     end
-    update_piece_location(coordinates)
+  end
+
+  def en_passant?(start, coordinates)
+    start.is_a?(Pawn) &&
+      [[1, 1], [1, -1]].include?(start.coordinate_difference(start.location, coordinates[2..3])) &&
+      start.adjacent_cells_vulnerable?(self)
   end
 
   def perform_en_passant(start, coordinates)
