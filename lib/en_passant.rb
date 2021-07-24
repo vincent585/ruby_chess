@@ -3,7 +3,6 @@
 # module containing the en passant logic and validation
 module EnPassant
   def legal_en_passant?(target, board)
-    p not_moving_away?(target, board)
     return true if board.cells[target[2]][target[3]] == '   ' &&
                    not_moving_away?(target, board)
 
@@ -11,7 +10,6 @@ module EnPassant
   end
 
   def not_moving_away?(target, board)
-    p coordinate_difference(location, target[2..3])
     left_cell = color == 'white' ? board.cells[location.first][location.last - 1] : board.cells[location.first][location.last + 1]
     right_cell = color == 'white ' ? board.cells[location.first][location.last + 1] : board.cells[location.first][location.last - 1]
     if left_cell.is_a?(Pawn) && left_cell.vulnerable && right_cell == '   '
