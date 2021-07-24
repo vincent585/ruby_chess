@@ -41,6 +41,7 @@ class Board
     update_moved_status(coordinates)
     move_piece(coordinates)
     @cells[coordinates[2]][coordinates[3]] = upgrade_piece(coordinates) if pawn_upgrade_available?(coordinates)
+    reset_vulnerability(current_player)
     self
   end
 
@@ -134,9 +135,42 @@ class Board
   end
 
   def move_piece(coordinates)
+    start = @cells[coordinates[0]][coordinates[1]]
+    start.vulnerable = true if start.is_a?(Pawn) && start.coordinate_difference(start.location, coordinates[2..3]) == [2, 0]
+    if start.is_a?(Pawn) && start.legal_en_passant?(coordinates[2..3], self)
+      perform_en_passant(start, coordinates)
+    else
+      p 'this is not en passant'
+      @cells[coordinates[2]][coordinates[3]] = @cells[coordinates[0]][coordinates[1]]
+      @cells[coordinates[0]][coordinates[1]] = '   '
+    end
+    update_piece_location(coordinates)
+  end
+
+  def perform_en_passant(start, coordinates)
     @cells[coordinates[2]][coordinates[3]] = @cells[coordinates[0]][coordinates[1]]
     @cells[coordinates[0]][coordinates[1]] = '   '
-    update_piece_location(coordinates)
+    if start.color == 'white'
+      @cells[coordinates[2] + 1][coordinates[3]] = '   '
+    elsif start.color == 'black'
+      @cells[coordinates[2] - 1][coordinates[3]] = '   '
+    end
+  end
+
+  def reset_vulnerability(current_player)
+    if current_player.color == 'white'
+      cells[3].each do |cell|
+        reset_cell(cell)
+      end
+    else
+      cells[4].each do |cell|
+        reset_cell(cell)
+      end
+    end
+  end
+
+  def reset_cell(cell)
+    cell.vulnerable = false if cell.is_a?(Pawn)
   end
 
   def update_piece_location(coordinates)

@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 require_relative 'piece'
-require_relative 'en_passant'
+require './lib/en_passant'
 
 # Pawn piece object
 class Pawn < Piece
@@ -44,6 +44,8 @@ class Pawn < Piece
   end
 
   def legal_pawn_diagonal?(target, board)
+    return true if adjacent_cells_vulnerable?(board)
+
     board.cells[target.first][target.last] != '   ' &&
       board.cells[target.first][target.last].color != color
   end
