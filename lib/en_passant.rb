@@ -12,8 +12,8 @@ module EnPassant
 
   def not_moving_away?(target, board)
     p coordinate_difference(location, target[2..3])
-    left_cell = board.cells[location.first][location.last - 1]
-    right_cell = board.cells[location.first][location.last + 1]
+    left_cell = color == 'white' ? board.cells[location.first][location.last - 1] : board.cells[location.first][location.last + 1]
+    right_cell = color == 'white ' ? board.cells[location.first][location.last + 1] : board.cells[location.first][location.last - 1]
     if left_cell.is_a?(Pawn) && left_cell.vulnerable && right_cell == '   '
       return false unless coordinate_difference(location, target[2..3]) == [1, 1]
     elsif right_cell.is_a?(Pawn) && right_cell.vulnerable && left_cell == '   '

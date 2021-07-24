@@ -38,7 +38,7 @@ class Board
     coordinates = convert_coordinates(start, target)
     return nil unless valid_coordinates?(coordinates, current_player) && legal_piece_move?(coordinates)
     return nil if en_passant?(cells[coordinates[0]][coordinates[1]], coordinates) && !cells[coordinates[0]][coordinates[1]].legal_en_passant?(coordinates, self)
-    
+
     update_moved_status(coordinates)
     move_piece(coordinates)
     @cells[coordinates[2]][coordinates[3]] = upgrade_piece(coordinates) if pawn_upgrade_available?(coordinates)
